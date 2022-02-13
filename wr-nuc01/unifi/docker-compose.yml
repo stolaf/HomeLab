@@ -1,15 +1,58 @@
-version: '3.8'
-unifi:
-    image: ryansch/unifi-rpi:6.5.50
-    container_name: unifi
-    restart: always
-    network_mode: host
-    volumes:
-      - ./volumes/unifi/var/lib/unifi:/var/lib/unifi
-      - ./volumes/unifi/usr/lib/unifi/logs:/usr/lib/unifi/logs
-      - ./volumes/unifi/var/log/unifi:/var/log/unifi
-      - ./volumes/unifi/usr/lib/unifi/run:/usr/lib/unifi/run
-      - ./volumes/unifi/run/unifi:/run/unifi
-      - ./volumes/unifi/usr/lib/unifi/work:/usr/lib/unifi/work
+version: '2.3'
 
-      
+services:
+  mongo:
+    image: mongo:3.6
+    container_name: ${COMPOSE_PROJECT_NAME}_mongo
+    networks:
+      - unifi
+    restart: always
+    volumes:
+      - ./volumes/data/db:/data/db
+      - ./volumes/data/configdb:/data/configdb
+  controller:
+    image: "jacobalberty/unifi:${TAG:-latest}"
+    container_name: ${COMPOSE_PROJECT_NAME}_controller
+    depends_on:
+      - mongo
+    init: true
+    networks:
+      - unifi
+    restart: always
+    volumes:
+      - ./volumes/dir:/unifi
+      - ./volumes/data:/unifi/data
+      - ./volumes/log:/unifi/log
+      - ./volumes/cert:/unifi/cert
+      - ./volumes/init:/unifi/init.d
+      - ./volumes/run:/var/run/unifi
+      # Mount local folder for backups and autobackups
+      - ./volumes/backup:/unifi/data/backup
+    user: unifi
+    sysctls:
+      net.ipv4.ip_unprivileged_port_start: 0
+    environment:
+      DB_URI: mongodb://mongo/unifi
+      STATDB_URI: mongodb://mongo/unifi_stat
+      DB_NAME: unifi
+    ports:
+      - "3478:3478/udp" # STUN
+      - "6789:6789/tcp" # Speed test
+      - "8080:8080/tcp" # Device/ controller comm.
+      - "8443:8443/tcp" # Controller GUI/API as seen in a web browser
+      - "8880:8880/tcp" # HTTP portal redirection
+      - "8843:8843/tcp" # HTTPS portal redirection
+      - "10001:10001/udp" # AP discovery
+  logs:
+    image: bash
+    container_name: ${COMPOSE_PROJECT_NAME}_logs
+    depends_on:
+      - controller
+    command: bash -c 'tail -F /unifi/log/*.log'
+    restart: always
+    volumes:
+      - ./volumes/log:/unifi/log
+
+networks:
+  unifi:
+
