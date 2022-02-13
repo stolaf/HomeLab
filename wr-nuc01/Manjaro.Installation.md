@@ -50,11 +50,9 @@ https://omvs.de/2019/05/21/citrix-receiver-in-manjaro-linux-installieren/
 cp ./wr-nuc01/.gitconfig ~/.gitconfig
 Install Extension: Powershell, Docker, XML, Material Icon Theme
 settings.json und powershell.json kopieren
-Set-PoshPrompt ./vscode/.mytheme.omp.json
 
 ## Powershell
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
-Install-Module oh-my-posh
 Install-Module PSFramework
 Install-Module platyPS
 Install-Module ImportExcel

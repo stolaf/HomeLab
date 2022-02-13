@@ -1,5 +1,7 @@
 version: '3.8'
-watchtower:
+
+services:
+  watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     command: --cleanup --label-enable
@@ -17,7 +19,7 @@ watchtower:
       # - WATCHTOWER_SERVER_USER=olaf.stagge@posteo.de
       # - WATCHTOWER_SERVER_PASSWORD=123456
       # - WATCHTOWER_EMAIL_DELAY=2
-      - WATCHTOWER_POLL_INTERVAL=120   #Poll interval in seconds, nicht zusammen mit WATCHTOWER_SCHEDULE
+      - WATCHTOWER_POLL_INTERVAL=120 #Poll interval in seconds, nicht zusammen mit WATCHTOWER_SCHEDULE
       - WATCHTOWER_CLEANUP=true
       # - WATCHTOWER_DEBUG=true
       - TZ=Europe/Berlin
