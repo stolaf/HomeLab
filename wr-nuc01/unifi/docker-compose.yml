@@ -1,0 +1,15 @@
+version: '3.8'
+unifi:
+    image: ryansch/unifi-rpi:6.5.50
+    container_name: unifi
+    restart: always
+    network_mode: host
+    volumes:
+      - ./volumes/unifi/var/lib/unifi:/var/lib/unifi
+      - ./volumes/unifi/usr/lib/unifi/logs:/usr/lib/unifi/logs
+      - ./volumes/unifi/var/log/unifi:/var/log/unifi
+      - ./volumes/unifi/usr/lib/unifi/run:/usr/lib/unifi/run
+      - ./volumes/unifi/run/unifi:/run/unifi
+      - ./volumes/unifi/usr/lib/unifi/work:/usr/lib/unifi/work
+
+      

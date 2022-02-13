@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  influxdb:
+    container_name: influxdb
+    image: "influxdb:latest"
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+      - "8083:8083"
+      - "2003:2003"
+    volumes:
+      - ./volumes/var/lib/influxdb:/var/lib/influxdb
+      - ./volumes/var/lib/influxdb/backup:/var/lib/influxdb/backup
+
+      

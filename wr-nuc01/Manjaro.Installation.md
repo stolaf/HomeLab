@@ -20,7 +20,7 @@ makepkg -si
 cd ..
 rm powershell-bin -r -f
 
-Thunderbird, Brave, Nextcloud Desktop Synchronisationsclien, VSCode (Code-OSS), Libreoffice Fresh über Software hinzufügen
+Thunderbird, Brave, Nextcloud Desktop Synchronisationsclien, VSCode (Code-OSS), Libreoffice Fresh, Keepass über Software hinzufügen
 
 flatpak install flathub md.obsidian.Obsidian
 flatpak run md.obsidian.Obsidian
@@ -47,10 +47,10 @@ sudo chmod +x /usr/local/bin/docker-compose
 https://omvs.de/2019/05/21/citrix-receiver-in-manjaro-linux-installieren/
 
 ## VSCode
-cp ./wr-nuc01/.gitconfig ~
-.gitconfig kopieren nach ~
-
-Install Extension: Powershell, Docker, XML
+cp ./wr-nuc01/.gitconfig ~/.gitconfig
+Install Extension: Powershell, Docker, XML, Material Icon Theme
+settings.json und powershell.json kopieren
+Set-PoshPrompt ./vscode/.mytheme.omp.json
 
 ## Powershell
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 

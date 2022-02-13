@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  duplicati:
+    image: duplicati/duplicati
+    container_name: duplicati
+    restart: unless-stopped
+    ports:
+      - 8200:8200
+    volumes:
+      - ./volumes/data:/data
+      - ~/homelab:/homelab
+
+      
