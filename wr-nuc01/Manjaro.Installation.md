@@ -13,6 +13,7 @@ OS auf sdb  446,83GiB
 pacmann -Syu
 
 Datum/Zeit automatisch ermitteln
+Einstellungen / Multitasking: Funktionale Ecke abschalten, Aktive Bildschirmkanten abschalten
 
 git clone https://aur.archlinux.org/powershell-bin.git
 cd powershell-bin
@@ -20,7 +21,9 @@ makepkg -si
 cd ..
 rm powershell-bin -r -f
 
-Thunderbird, Brave, Nextcloud Desktop Synchronisationsclien, VSCode (Code-OSS), Libreoffice Fresh, Keepass über Software hinzufügen
+# über Software hinzufügen
+Thunderbird, Brave, Nextcloud Desktop Synchronisationsclien, VSCode (Code-OSS), Libreoffice Fresh, Keepass, VLC
+Telegram, Remmmina
 
 flatpak install flathub md.obsidian.Obsidian
 flatpak run md.obsidian.Obsidian
@@ -28,6 +31,7 @@ flatpak run md.obsidian.Obsidian
 sudo pacman -S openssh
 sudo systemctl enable sshd
 sudo systemctl start sshd
+ssh-copy-id -i /mnt/c/Users/olaf/.ssh/id_rsa.pub olaf@192.168.178.95  #from Ubuntu WSL2
 
 sudo pacman -S system-config-printer 
 sudo pacman -S cups

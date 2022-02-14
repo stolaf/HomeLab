@@ -8,8 +8,8 @@ services:
       - unifi
     restart: always
     volumes:
-      - ./volumes/data/db:/data/db
-      - ./volumes/data/configdb:/data/configdb
+      - db:/data/db
+      - dbcfg:/data/configdb
   controller:
     image: "jacobalberty/unifi:${TAG:-latest}"
     container_name: ${COMPOSE_PROJECT_NAME}_controller
@@ -20,12 +20,12 @@ services:
       - unifi
     restart: always
     volumes:
-      - ./volumes/dir:/unifi
-      - ./volumes/data:/unifi/data
-      - ./volumes/log:/unifi/log
-      - ./volumes/cert:/unifi/cert
-      - ./volumes/init:/unifi/init.d
-      - ./volumes/run:/var/run/unifi
+      - dir:/unifi
+      - data:/unifi/data
+      - log:/unifi/log
+      - cert:/unifi/cert
+      - init:/unifi/init.d
+      - run:/var/run/unifi
       # Mount local folder for backups and autobackups
       - ./volumes/backup:/unifi/data/backup
     user: unifi
@@ -51,8 +51,17 @@ services:
     command: bash -c 'tail -F /unifi/log/*.log'
     restart: always
     volumes:
-      - ./volumes/log:/unifi/log
+      - log:/unifi/log
+
+volumes:
+  db:
+  dbcfg:
+  data:
+  log:
+  cert:
+  init:
+  dir:
+  run:
 
 networks:
   unifi:
-
