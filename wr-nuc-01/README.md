@@ -1,13 +1,12 @@
-# Manjaro auf NUC WR-NUC01 Installation
+# Manjaro auf NUC WR-NUC01 
 
 ## Hardware
 Intel-NUC D54250WYK
 Processor: Core i5-4250U  4x1.3GHz
 BIOS: WYLPT10H.86A.0054.2019.0902.1752
+OS ist auf sdb  446,83GiB
 
 Driver: https://www.intel.com/content/www/us/en/support/products/76977/intel-nuc/intel-nuc-kits/legacy-intel-nuc-kits/intel-nuc-kit-d54250wyk.html#support-recommended-articles
-
-OS auf sdb  446,83GiB
 
 ## Installation
 pacmann -Syu
@@ -21,10 +20,11 @@ makepkg -si
 cd ..
 rm powershell-bin -r -f
 
-# über Software hinzufügen
+## über Software hinzufügen
 Thunderbird, Brave, Nextcloud Desktop Synchronisationsclien, VSCode (Code-OSS), Libreoffice Fresh, Keepass, VLC
 Telegram, Remmmina
 
+## über Terminal hinzufügen
 flatpak install flathub md.obsidian.Obsidian
 flatpak run md.obsidian.Obsidian
 
@@ -47,7 +47,7 @@ sudo usermod -aG docker $USER
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# Citrix Client  : Citrix Workspace app
+## Citrix Client  : Citrix Workspace app
 https://omvs.de/2019/05/21/citrix-receiver-in-manjaro-linux-installieren/
 
 ## VSCode
