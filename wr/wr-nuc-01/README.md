@@ -21,17 +21,19 @@ cd ..
 rm powershell-bin -r -f
 
 ## über Software hinzufügen
-Thunderbird, Brave, Nextcloud Desktop Synchronisationsclien, VSCode (Code-OSS), Libreoffice Fresh, Keepass, VLC
-Telegram, Remmmina
+Thunderbird, Brave, Nextcloud Desktop Synchronisationsclien, VSCode (Code-OSS), Libreoffice Fresh, 
+Keepass, VLC, Telegram, Remmina
 
 ## über Terminal hinzufügen
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub/flatpakrepo  #alle Pakete auflisten
+flatpak search 
 flatpak install flathub md.obsidian.Obsidian
 flatpak run md.obsidian.Obsidian
 
 sudo pacman -S openssh
 sudo systemctl enable sshd
 sudo systemctl start sshd
-ssh-copy-id -i /mnt/c/Users/olaf/.ssh/id_rsa.pub olaf@192.168.178.95  #from Ubuntu WSL2
+ssh-copy-id -i /mnt/c/Users/olaf/.ssh/id_rsa.pub olaf@192.168.178.200 #from Ubuntu WSL2
 
 sudo pacman -S system-config-printer 
 sudo pacman -S cups
