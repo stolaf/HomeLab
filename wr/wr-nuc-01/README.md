@@ -30,6 +30,10 @@ flatpak search
 flatpak install flathub md.obsidian.Obsidian
 flatpak run md.obsidian.Obsidian
 
+# deepl AppImage
+https://github.com/kumakichi/Deepl-linux-electron/releases
+Ctrl+C to Clipboard, Ctrl+Alt+D übersetzen
+
 sudo pacman -S openssh
 sudo systemctl enable sshd
 sudo systemctl start sshd
