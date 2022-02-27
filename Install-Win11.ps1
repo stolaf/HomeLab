@@ -12,11 +12,15 @@ choco feature enable -n allowGlobalConfirmation
 choco upgrade chocolatey
 
 #Common Installations
-'choco-upgrade-all-at-startup', 'brave', 'chromium', 'deepl', 'notepadplusplus', '7zip.install', 'treesizefree', 'greenshot', 'cpu-z', 'nextcloud-client', 'sysinternals', 'ccleaner' | Foreach-Object { choco install $_ }
+'choco-upgrade-all-at-startup', 'brave', 'chromium', 'deepl', 'notepadplusplus', '7zip.install', 'treesizefree', 'greenshot', 'nextcloud-client' | Foreach-Object { choco install $_ }
+
+'sysinternals', 'ccleaner' | Foreach-Object { choco install $_ }
 
 #Olaf allgemein
 'prusaslicer', 'obs-studio', 'etcher', 'crystaldiskinfo', 'putty.install', 'winscp.install', 'citrix-receiver', 'royalts', 'teamviewer', 'javaruntime', 'filezilla', 'powershell-core', 'openssh', 'skype', 'bitwarden' | Foreach-Object { choco install $_ }
 'speedfan' | Foreach-Object { choco install $_ }
+
+choco install 'powershell-core'
 
 #Olaf Development
 'azure-data-studio', 'dotnet-5.0-sdk', 'mqttfx', 'bitwarden-cli', 'arduino', 'python3', 'git', 'github-desktop', 'nodejs.install', 'vscode', 'vscode-powershell', 'vscode-csharp', 'vscode-icons', 'vscode-gitlens', 'vscode-docker', 'vscode-mssql', 'vscode-markdownlint' | Foreach-Object { choco install $_ }
@@ -55,14 +59,14 @@ $LicenceFile = "$ENV:APPDATA\ISESteroids\License\License.license"
 '1hGEBGGRBgGXSs8BAQAAAwBAAE9sYWZfU3RhZ2dlI0ZyZWUjb2xhZi5zdGFnZ2VAaG90bWFpbC5kZSMyOC4wMy4yMDE0IDE2OjA0OjIzI2ZyZWUBBABAMnzJCwAAAFi2IOvllODrz7guIUnfNRZPvVlp5Qd0dIVr/mhEOx2kHDBqvygOgEs5RWH3xP4ST5L6WBLqQ/BRi7vjvLA8l9i1KQF7kIGSKFE7M7qgKvf3T7m/0qm1V5bR8RVYb4t2ScnvOvBbdX2NhZe4HB76orMUycatsqz8HHMq32hqfJFum7lQf6duiFdSDSGRizM0F2BZ/zmGlE7jDMGWO6wXdO7oljfIBPk7jYGAknbsAulGFrZtngVLUGrJMfjAuaI8lwGqqHJ21AUmgURMF1fZV6bY/mS87VKwVoH0dqgwn1h+clbRdmstC1kFA2TZzGEGeCERWaiKOEEtqboHzjvnW7RiNidU1CCbu/AqdpIRmOAHVkSj0auw/7IUQB1+G/c0BScFhtMtokMdRCjvogTo956stlkfn/ChXFsPVzmSUTHKdHd2yLLdte7noYp4ZYjA93jhk+Aeo+IE0ZyGpb0np2chYpgeKW8bRCehT1duH3M+oFu4iwuRskiExn1C6L11' | Out-File -FilePath $LicenceFile
 Start-Steroids
 
-Install-Module -Name 'PoshKeePass' -Scope CurrentUser
+Install-Module -Name 'PoshKeePass' -Scope AllUsers  #  CurrentUser
 Install-Module -Name 'PowerShellLogging' -Scope CurrentUser
 Install-Module -Name 'PSScriptAnalyzer' -Scope CurrentUser -Force
-Install-Module -Name 'ImportExcel' -Scope CurrentUser -Force
+Install-Module -Name 'ImportExcel' -Scope AllUsers   #CurrentUser -Force
 Install-Module -Name 'PSWindowsUpdate' -Scope CurrentUser -Force
 Install-Module -Name '7Zip4Powershell' -Scope CurrentUser -Force
 Install-Module -Name 'Pester' -Scope CurrentUser -Force
-Install-Module -Name 'PlatyPS' -Scope CurrentUser -Force
+Install-Module -Name 'PlatyPS' -Scope AllUsers # CurrentUser -Force
 Install-Module -Name 'NTFSSecurity' -Scope CurrentUser -Force
 Install-Module -Name 'oh-my-posh' -Scope CurrentUser 
 
