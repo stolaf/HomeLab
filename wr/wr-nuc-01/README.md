@@ -54,7 +54,14 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.3/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 ## Citrix Client  : Citrix Workspace app
+https://www.citrix.com/downloads/workspace-app/linux/workspace-app-for-linux-latest.html
 https://omvs.de/2019/05/21/citrix-receiver-in-manjaro-linux-installieren/
+
+## .deb Pakete installieren 
+1. git clone https://github.com/helixarch/debtap
+2. sudo debtap -u
+3. bash debtap example.deb
+4. sudo pacman -U example.pkg.tar.zst
 
 ## VSCode
 cp ./wr-nuc01/.gitconfig ~/.gitconfig
