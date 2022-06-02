@@ -27,7 +27,7 @@ function Install-myModule {
     }
 
     if ($IsLinux) {
-        wget https://github.com/stolaf/homelab/blob/main/powershell/profile.ps1 -O /home/olaf/.config/powershell/profile.ps1
+        wget https://github.com/stolaf/homelab/blob/main/powershell/profile_CurrentUser.AllHosts.ps1 -O /home/olaf/.config/powershell/profile.ps1
 
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
         sudo chmod +x /usr/local/bin/oh-my-posh
