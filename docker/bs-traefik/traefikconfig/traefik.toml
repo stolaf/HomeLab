@@ -11,18 +11,22 @@
     
 [api]
   dashboard = true
-  insecure = true
 
-[entryPoints]
-  [entryPoints.web]
-    address = ":80"
-  [entryPoints.web-secure]
-    address = ":443"
-  [entryPoints.dashboard]
-    address = ":8180"
-    
+# https://doc.traefik.io/traefik/routing/entrypoints/#redirection
+[entryPoints.web]
+  address = ":80"
+
+  [entryPoints.web.http]
+    [entryPoints.web.http.redirections]
+      [entryPoints.web.http.redirections.entryPoint]
+        to = "websecure"
+        scheme = "https"
+
+[entryPoints.websecure]
+  address = ":443"
+
 [certificatesResolvers]
   [certificatesResolvers.default.acme]
-    email = "olaf.stagge@posteo.de" 
+    email = "olaf.stagge@posteo.de" #Email Adresse hier anpassen
     storage = "/etc/traefik/ACME/acme.json"
     [certificatesResolvers.default.acme.tlsChallenge]

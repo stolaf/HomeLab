@@ -8,7 +8,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - ../volumes/vaultwarden/data:/data
+      - ../bs-volumes/vaultwarden/data:/data
     labels:
       - "traefik.enable=true"
       - "traefik.http.middlewares.bitwarden-https.redirectscheme.scheme=https"
