@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  duplicati:
+    image: duplicati/duplicati:2.0.5.111_canary_2020-09-26
+    container_name: duplicati
+    restart: always
+    ports:
+      - 8200:8200
+    volumes:
+      - ../volumes/duplicati/data:/data
+      - ../volumes:/volumes
+      - /media/data/docker/nextcloud/data:/nextcloud

@@ -68,11 +68,3 @@ cp ./wr-nuc01/.gitconfig ~/.gitconfig
 Install Extension: Powershell, Docker, XML, Material Icon Theme
 settings.json und powershell.json kopieren
 
-## Powershell
-Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
-Install-Module PSFramework
-Install-Module platyPS
-Install-Module ImportExcel
-Install-Module Microsoft.Powershell.SecretManagement
-Install-Module Microsoft.Powershell.SecretStore
-Install-Module SecretManagement.KeePass

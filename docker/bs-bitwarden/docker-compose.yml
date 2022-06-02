@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  bitwarden:
+    image: vaultwarden/server:1.21.0
+    container_name: vaultwarden
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ../volumes/vaultwarden/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.bitwarden-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.bitwarden-http.entrypoints=web"
+      - "traefik.http.routers.bitwarden-http.rule=Host(`${BITWARDEN_URL}`)" #Domain anpassen
+      - "traefik.http.routers.bitwarden-http.middlewares=bitwarden-https@docker"
+      - "traefik.http.routers.bitwarden.entrypoints=web-secure"
+      - "traefik.http.routers.bitwarden.rule=Host(`${BITWARDEN_URL}`)" #Domain anpassen
+      - "traefik.http.routers.bitwarden.tls=true"
+      - "traefik.http.routers.bitwarden.tls.certresolver=default"
+      - "traefik.http.routers.bitwarden.middlewares=secHeaders@file"
+
+    networks:
+      - traefik_proxy
+
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
+  default:
+    driver: bridge

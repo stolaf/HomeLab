@@ -1,0 +1,52 @@
+version: "3"
+services:
+  db_recipes:
+    restart: always
+    image: postgres:11-alpine
+    volumes:
+      - ../volumes/recipes/postgresql:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    networks:
+      - default
+
+  web_recipes:
+    restart: always
+    image: vabene1111/recipes
+    env_file:
+      - ./.env
+    volumes:
+      - ../volumes/recipes/staticfiles:/opt/recipes/staticfiles
+      - ../volumes/recipes/nginx_config:/opt/recipes/nginx/conf.d
+      - ../volumes/recipes/mediafiles:/opt/recipes/mediafiles
+    depends_on:
+      - db_recipes
+    networks:
+      - default
+
+  nginx_recipes:
+    image: nginx:mainline-alpine
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - ../volumes/recipes/nginx_config:/etc/nginx/conf.d:ro
+      - ../volumes/recipes/staticfiles:/static:ro
+      - ../volumes/recipes/mediafiles:/media:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.recipes.rule=Host(`recipes.stagge.it`)"
+      - "traefik.http.routers.recipes.entrypoints=web_secure"
+      - "traefik.http.routers.recipes.tls.certresolver=le_resolver"
+    depends_on:
+      - web_recipes
+    networks:
+      - traefik_proxy
+      - default
+
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
+  default:
+    driver: bridge

@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  jdownloader:
+    image: jlesage/jdownloader-2:latest
+    container_name: jdownloader
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 5900:5800
+    volumes:
+      - /media/videos/jdownloader:/output
+      - ../volumes/jdownloader/config:/config
+    environment:
+      USER_ID: 1000
+      GROUP_ID: 1000
+      TZ: Europe/Berlin
+      UMASK: 2
+      KEEP_APP_RUNNING: 1
+      CLEAN_TMP_DIR: 1
+      DISPLAY_WIDTH: 1600
+      DISPLAY_HEIGHT: 960
+      VNC_PASSWORD: $JDOWNLOADER_VNC_PASSWD
