@@ -1,4 +1,4 @@
-# Mein Powershell Profile CurrentUserAllHosts
+# Mein Powershell Profile CurrentUserAllHosts $Profile.CurrentUserAllHosts
 
 function Install-myModule {
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted      
@@ -23,11 +23,12 @@ function Install-myModule {
         Set-ExecutionPolicy Bypass -Scope Process -Force
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
 
-        https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
-        
+        https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip      
     }
 
     if ($IsLinux) {
+        wget https://github.com/stolaf/homelab/blob/main/powershell/profile.ps1 -O /home/olaf/.config/powershell/profile.ps1
+
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
         sudo chmod +x /usr/local/bin/oh-my-posh
         mkdir ~/.poshthemes
