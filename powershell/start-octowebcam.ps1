@@ -1,0 +1,2 @@
+Start-Process -FilePath "C:\Users\olaf\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"  -ArgumentList "--disable-windows10-custom-titlebar --box-mode --app=http://192.168.178.5/webcam/?action=stream --window-size=800,600" 
+# Start-Process -FilePath "C:\Users\olaf\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe"  -ArgumentList "--disable-windows10-custom-titlebar --box-mode --app=http://192.168.178.5/#control --window-size=900,700" 
