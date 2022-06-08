@@ -1,4 +1,7 @@
-# Mein Powershell Profile CurrentUserAllHosts $Profile.CurrentUserAllHosts
+<#
+* Mein Powershell Profile CurrentUserAllHosts $Profile.CurrentUserAllHosts
+#>
+
 
 function Start-mySettings {
     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 

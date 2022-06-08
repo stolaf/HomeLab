@@ -1,3 +1,0 @@
-# Jdownloader
-
-jDownloader - Download management

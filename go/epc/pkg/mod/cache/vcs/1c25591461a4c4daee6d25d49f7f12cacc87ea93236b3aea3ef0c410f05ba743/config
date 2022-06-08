@@ -1,0 +1,7 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+[remote "origin"]
+	url = https://gitlab.scusi.io/flow/epc.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

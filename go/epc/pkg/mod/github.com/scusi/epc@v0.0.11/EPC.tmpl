@@ -1,0 +1,12 @@
+{{define "EPC_Message"}}BCD
+{{printf "%03d" .Version}}
+{{.Encoding}}
+SCT
+{{.BIC}}
+{{.Name}}
+{{.IBAN}}
+EUR{{.Amount}}
+{{.SEPA_PURPOSE}}
+{{.SCR}}
+{{.SUBJECT}}
+{{.NOTE}}{{end}}
