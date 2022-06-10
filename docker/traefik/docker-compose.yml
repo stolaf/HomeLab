@@ -9,17 +9,15 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefikconfig:/etc/traefik
-    labels:
-      - "traefik.enable=true"
-      #- "traefik.http.routers.traefik.rule=Host(`traefik.stagge.it`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-      - "traefik.http.routers.api.rule=Host(`traefik.stagge.it`) && PathPrefix(`/dashboard`)"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.tls.certresolver=default"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.middlewares=auth@docker"
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$2y$05$h4ostv2HcKH5civsR76zlOyxWBUdTlgT9NtsjrVREN4xgqtyNfkOO" # Siehe Anleitung
-      # - "traefik.http.middlewares.api-auth.basicauth.users=admin:$2y$05$h4ostv2HcKH5civsR76zlOyxWBUdTlgT9NtsjrVREN4xgqtyNfkOO"
+      - ./config:/etc/traefik
+    # labels:
+    #  - "traefik.enable=true"
+    #  - "traefik.http.routers.traefik.rule=Host(`traefik.example.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+    #  - "traefik.http.routers.traefik.entrypoints=websecure"
+    #  - "traefik.http.routers.traefik.tls.certresolver=default"
+    #  - "traefik.http.routers.traefik.service=api@internal"
+    #  - "traefik.http.routers.traefik.middlewares=auth@docker"
+    #  - "traefik.http.middlewares.auth.basicauth.users=user:pass" # Siehe Anleitung
     networks:
       - traefik_proxy
       - default
@@ -34,3 +32,4 @@ networks:
       name: traefik_proxy
   default:
     driver: bridge
+    

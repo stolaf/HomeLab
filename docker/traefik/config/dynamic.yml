@@ -32,7 +32,6 @@ http:
         customRequestHeaders:
           X-Frame-Options: "SAMEORIGIN"
         customFrameOptionsValue: "SAMEORIGIN"
-
 #  Beispiel für externe Dienste
 #   routers:
 #     router-1: # Tausche den Namen gegen etwas sprechendes aus

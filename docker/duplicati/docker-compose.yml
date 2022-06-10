@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  duplicati:
+    image: duplicati/duplicati:latest
+    container_name: duplicati
+    restart: always
+    ports:
+      - 8200:8200
+    volumes:
+      - /var/docker/duplicati/data:/data
+      - /var/docker/duplicati/volumes:/volumes
+      - /media/data/docker/nextcloud/data:/nextcloud

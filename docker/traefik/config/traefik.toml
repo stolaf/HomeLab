@@ -30,3 +30,4 @@
     email = "olaf.stagge@posteo.de" #Email Adresse hier anpassen
     storage = "/etc/traefik/ACME/acme.json"
     [certificatesResolvers.default.acme.tlsChallenge]
+    
