@@ -50,3 +50,14 @@ Des Weiteren ist die Domain anzupassen:
 
 Anschließend kann der Container gestartet werden. Das Dashboard ist unter der gewählten URL und Port und dem Unterverzeichnis "/dashboard" erreichbar. Abgeleitet aus dem aktuellen Beispiel:
 https://traefik.example.com:8180/dashboard
+
+## Überprüfung
+SSL Configurator von Mozilla:  https://ssl-config.mozilla.org/#server=traefik&version=2.1.2&config=intermediate&guideline=5.6
+
+Überprüfung der eigenen Serverconfiguration:  
+https://www.ssllabs.com/ssltest  
+https://www.teqqy.de/traefik-troubleshooting-guide/  
+
+## c't
+c't 02/2022: Jahn Mahn https://ct.de/y2yq  jam@ct.de
+![Transportverschlüsselungsverwirrung](./attachements/Transportverschl%C3%BCsselungsverwirrung.pdf)

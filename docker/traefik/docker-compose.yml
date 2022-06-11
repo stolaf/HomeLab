@@ -18,6 +18,13 @@ services:
     #  - "traefik.http.routers.traefik.service=api@internal"
     #  - "traefik.http.routers.traefik.middlewares=auth@docker"
     #  - "traefik.http.middlewares.auth.basicauth.users=user:pass" # Siehe Anleitung
+    ###########################################################################################
+      - "traefik.http.routers.traefik.rule=Host(`traefik.stagge.it) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik.entrypoints=web-secure"
+      - "traefik.http.routers.traefik.tls.certresolver=default"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth@docker"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$05$$47WqfMIMjK7YfiDOVvbzaeVSkaeptMC0zx6E.zzBEgJ48vERJD7Ay" # Siehe Anleitung
     networks:
       - traefik_proxy
       - default

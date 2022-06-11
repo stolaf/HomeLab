@@ -1,0 +1,4 @@
+#build stage
+FROM python:3-alpine
+RUN pip install --upgrade pip
+CMD "/bin/sh"

@@ -1,0 +1,27 @@
+---
+version: "3"
+
+services:
+  drawio:
+    image: jgraph/drawio:latest
+    container_name: drawio
+    ports:
+      - 8081:8080
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.drawio-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.drawio-http.entrypoints=web"
+      - "traefik.http.routers.drawio-http.rule=Host(`drawio.$DOMAINNAME`)"
+      - "traefik.http.routers.drawio-http.middlewares=drawio-https@docker"
+      - "traefik.http.routers.drawio.entrypoints=web-secure"
+      - "traefik.http.routers.drawio.rule=Host(`drawio.$DOMAINNAME`)"
+      - "traefik.http.routers.drawio.tls=true"
+      - "traefik.http.routers.drawio.tls.certresolver=default"
+      - "traefik.http.routers.drawio.middlewares=secHeaders@file"
+      - "traefik.http.services.drawio.loadbalancer.server.port=8080"
+    networks:
+      - traefik_proxy
+      - default
+
+      

@@ -29,4 +29,8 @@ Vor dem Starten ist es noch notwendig die Datenbank zu initialisieren.
 
 ````docker-compose up -d````
 
-6. Anmelden mit guacadmin/guacadmin
+6. Anmelden initial mit guacadmin/guacadmin
+
+## Links
+https://www.youtube.com/watch?v=vMhjvGLeHrY  
+https://github.com/MysticRyuujin/guac-install https://github.com/bigredthelogger/guacamole
