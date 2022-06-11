@@ -1,0 +1,62 @@
+site_name: elastic-it
+site_description: Techn. Dokumentation
+site_author: Olaf Stagge
+dev_addr: '0.0.0.0:8080'
+
+repo_name: 'Github'
+repo_url: https://github.com/stolaf/mkdocker/
+
+docs_dir: docs
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - footnotes
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      use_pygments: false # hljs is used instead of pygment for TOML highlighting support
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist
+  - pymdownx.snippets:
+      check_paths: true
+  - toc:
+      permalink: true
+
+theme:
+  name: material
+  language: de
+  include_sidebar: true
+  font: false
+  favicon: assets/img/favicon.png
+  logo: assets/img/favicon.png
+
+extra_css:
+    - css/extra.css
+
+plugins:
+  - search
+
+nav:
+  - Willkommen: index.md
+  - Scripting: 
+    - Bash:
+      - Allgemeine Befehle: scripting/bash/commands.md
+    - Command Shell: 
+      - Allgemeine Befehle: scripting/cmd/commands.md
+    - Powershell:
+      - Snippets: scripting/powershell/snippets/snippets.md
+    - Python:
+      - Installation: scripting/python/installation.md
+  - Hardware:
+      - Server: hardware/server/readme.md
+      - Raspberry Pi: hardware/raspberry_pi/readme.md
+      - Octopus Net: hardware/octopusnet/readme.md
+      - Unifi: hardware/unify/readme.md
+  - Docker:
+      - Allgemein: docker/docker.md
+  - Markdown: 
+      - SheetSheet: markdown/cheatcheet.md
+      - Examples: markdown/examples.md
+  - Impressum: impressum/impressum.md
