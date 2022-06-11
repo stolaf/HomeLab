@@ -6,9 +6,9 @@ if ($IsLinux) {
     chmod +x dotnet-install.sh
     ./dotnet-install.sh -c Current
     nano ~/.bashrc
-    export PATH=$PATH:$HOME/.dotnet
-    export DOTNET_ROOT=$HOME/.dotnet
-    export PATH="$PATH:/home/olaf/.dotnet/tools"
+    # export PATH=$PATH:$HOME/.dotnet
+    # export DOTNET_ROOT=$HOME/.dotnet
+    # export PATH="$PATH:/home/olaf/.dotnet/tools"
         
     dotnet tool install --global PowerShell
     dotnet tool uninstall --global PowerShell

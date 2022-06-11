@@ -8,3 +8,11 @@ Wichtig, sonst funktioniert der Desktop Client nicht
 sudo nano /var/docker/nextcloud/app/config/config.php
     'overwrite.cli.url' => 'https://nextcloud.stagge.it',
     'overwriteprotocol' => 'https',
+
+## fulltextsearch
+https://github.com/nextcloud/fulltextsearch/wiki  
+https://www.c-rieger.de/volltextsuche-mit-nextcloud-20-elasticsearch-und-tessaract/  
+
+
+## Kalender
+https://www.schulferien.org/deutschland/ical/  
