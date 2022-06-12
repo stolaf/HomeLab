@@ -1,13 +1,20 @@
 # Docker
 
 ## Links
-https://4sysops.com/archives/configure-windows-server-2019-container-host-with-powershell/
-https://4sysops.com/archives/using-docker-commands-to-manage-windows-server-2016-containers/
+https://hub.docker.com/
+https://github.com/cbirkenbeul/docker-homelab
 
-# Aufräumarbeiten per CLI
-docker rm $(docker ps -a -q -f ancestor=python)
-docker rmi $(docker images python -f dangling=true -q)
-docker rmi $(docker images -q)  -f
+## Installation
+```
+curl -fsSL https://get.docker.com -o get-docker.sh  
+sudo sh get-docker.sh  
+sudo usermod -aG docker $USER  
+
+sudo apt-get install libffi-dev libssl-dev -y  
+sudo apt install python3-dev -y  
+sudo apt-get install python3 python3-pip -y  
+sudo pip3 install docker-compose  
+```
 
 ## Lazydocker
 ct: 03/2022 S.79
@@ -20,26 +27,6 @@ tar xf lazydocker_0.12_Linux_x86_64.tar.gz
 sudo mv lazydocker /usr/local/bin
 lazydocker
 ```
-
-## docker-compose
-https://www.heise.de/ct/artikel/Docker-einrichten-unter-Linux-Windows-macOS-4309355.html#nav_installieren__1
-apt install docker-compose-plugin
-Auch das Updaten ist einfach – mit `apt upgrade` werden Docker und Docker-Compose auf den aktuellen Stand gebracht.
-
-## Copy File from docker-01
-
-``` bash
-# Backup unter ~/Documents/Powershell/backup/docker
-scp olaf@192.168.178.20:~/homelab/docker-compose.yml .\backup\docker-01\docker-compose.yml   #oder
-scp olaf@192.168.178.20:~/homelab/docker-compose.yml ./backup/docker-01/docker-compose.yml
-scp olaf@192.168.178.20:~/homelab/.env .\backup\docker-01\.env
-```
-
-## Dockerbefehle
-
-docker logs -f traefik
-docker stop $(docker ps -aq)
-docker rmi $(docker images -aq) -f
 
 ## Trivy
 Container auf Schwachstellen untersuchen
@@ -86,3 +73,11 @@ docker run --rm  -it --shm-size=512m -p 6901:6901 -e VNC_PW=password kasmweb/tor
 docker run --rm  -it --shm-size=512m -p 6901:6901 -e VNC_PW=password kasmweb/postman:1.10.0-rolling
 ```
 
+## SCP Copy
+
+scp -r ~/homelab/volumes/heimdall/config olaf@192.168.178.20:/var/docker/heimdall
+scp -r ~/homelab/volumes/tvheadend/config olaf@192.168.178.20:/var/docker/tvheadend
+scp -r ~/homelab/volumes/tvheadend/picons olaf@192.168.178.20:/var/docker/tvheadend
+scp -r ~/homelab/volumes/tvheadend/recording olaf@192.168.178.20:/var/docker/tvheadend
+chmod 777 /var/docker/tvheadend/picons
+sudo chown -cR olaf:olaf /var/docker/tvheadend/picons

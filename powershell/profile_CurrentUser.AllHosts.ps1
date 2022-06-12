@@ -40,7 +40,7 @@ function Start-mySettings {
         'brave', 'deepl', 'notepadplusplus', 'treesizefree', 'greenshot', 'nextcloud-client', 'ccleaner', '7zip.install' | Foreach-Object { choco install $_ }
         'microsoft-windows-terminal', 'keepass', 'git' | Foreach-Object { choco install $_ }
         'prusaslicer', 'obs-studio', 'etcher', 'putty.install', 'winscp.install', 'citrix-receiver', 'royalts', 'teamviewer', 'bitwarden' | Foreach-Object { choco install $_ }
-        'dotnet-5.0-sdk', 'mqttfx', 'bitwarden-cli', 'python3', 'vscode', 'vscode-powershell', 'vscode-csharp', 'vscode-icons', 'vscode-gitlens', 'vscode-docker', 'vscode-mssql', 'vscode-markdownlint' | Foreach-Object { choco install $_ }
+        'dotnet-6.0-sdk', 'mqttfx', 'bitwarden-cli', 'python3', 'vscode', 'vscode-powershell', 'vscode-csharp', 'vscode-icons', 'vscode-gitlens', 'vscode-docker', 'vscode-mssql', 'vscode-markdownlint' | Foreach-Object { choco install $_ }
         'foxitreader', 'libreoffice-fresh', 'thunderbird', 'gimp', 'inkscape', 'vlc' | Foreach-Object { choco install $_ }
 
         choco outdated
@@ -180,7 +180,16 @@ Set-Alias grep findstr
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
 
 if ($IsLinux) {
+    wget https://dot.net/v1/dotnet-install.sh
+    chmod +x dotnet-install.sh
+    ./dotnet-install.sh -channel LTS -c Current  # -Architecture arm
+    nano /home/olaf/.bashrc
+    # Append export PATH=$PATH:$HOME/.dotnet
+    # Append export DOTNET_ROOT=$HOME/.dotnet
+    # Append export PATH="$PATH:~/.dotnet/tools"
+    source ~/.bashrc  # bash neu laden
     $env:PATH = "$($env:PATH):~/.dotnet"    # PATH in GROSSBUCHSTABEN!!!
+    dotnet tool install --global PowerShell
 }
 
 if ($IsWindows) {

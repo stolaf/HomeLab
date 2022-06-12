@@ -1,0 +1,20 @@
+---
+version: '3'
+
+services:
+  tvheadend:
+    image: linuxserver/tvheadend
+    container_name: tvheadend
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - RUN_OPTS=--satip_xml http://192.168.178.9:8888/octonet.xml 
+    volumes:
+      - /var/docker/tvheadend/config:/config
+      - /var/docker/tvheadend/recordings:/recordings
+      - /var/docker/tvheadend/picons:/picons
+    network_mode: host
+
+ls
