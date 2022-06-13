@@ -6,6 +6,8 @@ services:
     image: octoprint/octoprint:latest
     container_name: octoprint
     restart: unless-stopped
+    # volumes:
+    # -???
     ports:
       - 80:80
     devices:
