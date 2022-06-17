@@ -135,9 +135,12 @@ function Start-mySettings {
     Install-Module -Name 'ImportExcel' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Microsoft.Powershell.SecretManagement' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Microsoft.Powershell.SecretStore' -Repository PSGallery -Scope CurrentUser -force
-    Install-Module -Name 'SecretManagement.KeePass' -Repository PSGallery -Scope CurrentUser -force
+    # Install-Module -Name 'SecretManagement.KeePass' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'PlatyPS' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Pester' -Repository PSGallery -Scope CurrentUser -force
+    Install-Module -Name 'Selenium' -Repository PSGallery -Scope CurrentUser -force
+    # v2.6.2 funktioniert derzeit nicht (14.06.2022), siehe https://github.com/Badgerati/Pode/issues/965
+    Install-Module -Name 'Pode' -Repository PSGallery -Scope CurrentUser -RequiredVersion 2.5.2 -force  
 
     #region VSCode
     $Null = New-Item -Path "$ENV:APPDATA\Code\User\Snippets\powershell.json" -ItemType File -ErrorAction SilentlyContinue

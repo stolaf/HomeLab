@@ -110,7 +110,7 @@ sudo chown -cR olaf:olaf /var/docker/tvheadend/picons
         exit
     docker stop d96b6e3f9cc4
     docker rmi nginx --force
-    docker inspect traefik |grep -i version
+    docker inspect traefik | grep -i version
 ```
 
 #### **Arbeiten mit Volumes**

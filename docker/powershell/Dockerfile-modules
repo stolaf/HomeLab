@@ -1,7 +1,0 @@
-FROM pwsh:latest
-RUN pwsh -command 'Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted'
-RUN pwsh -command 'Install-Module -Name Microsoft.PowerShell.SecretManagement -AllowPrerelease -Repository PSGallery'
-RUN pwsh -command 'Install-Module -Name Microsoft.PowerShell.SecretStore -AllowPrerelease -Repository PSGallery'
-RUN pwsh -command 'Register-SecretVault -Name SecretStore -ModuleName Microsoft.PowerShell.SecretStore -DefaultVault -AllowClobber'
-RUN pwsh -command 'Install-Module Pode -force'
-CMD [ "pwsh" ]

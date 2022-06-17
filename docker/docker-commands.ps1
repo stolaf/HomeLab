@@ -7,13 +7,11 @@ docker-compose -f ./adminer/docker-compose.yml stop
 docker-compose -f ./adminer/docker-compose.yml pull
 docker-compose -f ./adminer/docker-compose.yml build
 
-Set-Location -Path '~/Documents/homelab/docker/influxdb_grafana'
-docker-compose -f ./docker-compose.yml up 
-docker-compose -f ./docker-compose.yml down
+docker-compose -f ~/Documents/homelab/docker/influxdb_grafana/docker-compose.yml up 
+docker-compose -f ~/Documents/homelab/docker/influxdb_grafana/docker-compose.yml down
 
-Set-Location -Path '~/Documents/homelab/docker/influxdb'
-docker-compose -f ./docker-compose.yml up 
-docker-compose -f ./docker-compose.yml down
+docker-compose -f ~/Documents/homelab/docker/influxdb/docker-compose.yml up 
+docker-compose -f ~/Documents/homelab/docker/influxdb/docker-compose.yml down
 
 docker logs -f traefik
 docker stop $(docker ps -aq)
