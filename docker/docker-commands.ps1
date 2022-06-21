@@ -18,7 +18,7 @@ docker stop $(docker ps -aq)
 docker rmi $(docker images -aq) -f
 
 #Auflisten aller verwendeten Ports  
-docker container ls --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}" | Sort-object Ports
+docker container ls --format "table {{.Names}}\t{{.Ports}}" | Sort-object Ports
 
 #Aufräumarbeiten  
 docker rm $(docker ps -a -q -f ancestor=python)

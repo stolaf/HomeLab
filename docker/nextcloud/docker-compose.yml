@@ -16,7 +16,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_INITDB_SKIP_TZINFO=1 # Behebt die bekannten Startprobleme der Datenbank
+      - MYSQL_INITDB_SKIP_TZINFO=1
 
   nextcloud-redis:
     image: redis:alpine
@@ -43,6 +43,8 @@ services:
       - /media/data/docker/nextcloud/data:/var/www/html/data
     links:
       - nextcloud-db
+    ports:
+      - 8088:80
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
@@ -62,7 +64,6 @@ services:
     restart: always
     volumes:
       - /var/docker/nextcloud/app:/var/www/html
-      # - EXTERNES DATENVERZEICHNIS:/var/www/html/data
       - /media/data/docker/nextcloud/data:/var/www/html/data
     entrypoint: /cron.sh
     depends_on:

@@ -8,6 +8,11 @@ Wichtig, sonst funktioniert der Desktop Client nicht
 sudo nano /var/docker/nextcloud/app/config/config.php
     'overwrite.cli.url' => 'https://nextcloud.stagge.it',
     'overwriteprotocol' => 'https',
+    'trusted_domains' => 
+    array (
+        0 => '192.168.178.20',
+        1 => 'nextcloud.stagge.it',
+    ),
 
 ## fulltextsearch
 https://github.com/nextcloud/fulltextsearch/wiki  

@@ -82,7 +82,9 @@ scp -r ~/homelab/volumes/tvheadend/recording olaf@192.168.178.20:/var/docker/tvh
 chmod 777 /var/docker/tvheadend/picons
 sudo chown -cR olaf:olaf /var/docker/tvheadend/picons
 
-## Arbeiten mit Dockker
+## Arbeiten mit Docker
+
+https://docs.docker.com/engine/reference/commandline/ps/#filtering  
 
 #### **Einige docker Befehle**
 ```bash 
