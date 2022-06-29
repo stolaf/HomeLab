@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  codeserver:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: codeserver
+    restart: unless-stopped
+    volumes:
+      - /var/docker/vscode/config:/config
+      - ~/Documents:/Documents
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - PASSWORD=${PASSWORD} #optional
+      # - HASHED_PASSWORD= #optional
+      - SUDO_PASSWORD=${SUDO_PASSWORD} #optional
+      # - SUDO_PASSWORD_HASH= #optional
+      # - PROXY_DOMAIN=code-server.my.domain #optional
+      # - DEFAULT_WORKSPACE=/config/workspace #optional
+      #ports:
+      # - 9998:8443
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vscode.entrypoints=websecure"
+      - "traefik.http.routers.vscode.rule=Host(`${VSCODE_URL}`)"
+      - "traefik.http.routers.vscode.tls=true"
+      - "traefik.http.routers.vscode.tls.certresolver=default"
+      - "traefik.http.routers.vscode.middlewares=secHeaders@file"
+      - "traefik.http.services.vscode.loadbalancer.server.port=8443"
+    networks:
+      - traefik_proxy
+
+networks:
+  traefik_proxy:
+    external:
+      name: traefik_proxy
+  default:
+    driver: bridge

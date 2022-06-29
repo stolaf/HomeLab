@@ -10,6 +10,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh  
 sudo usermod -aG docker $USER  
 
+**evtl. nicht mehr notwendig da in Docker in Version2 docker-compose enthalten ist**
 sudo apt-get install libffi-dev libssl-dev -y  
 sudo apt install python3-dev -y  
 sudo apt-get install python3 python3-pip -y  
