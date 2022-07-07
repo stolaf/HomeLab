@@ -19,6 +19,7 @@ if ($IsLinux) {
     # export PATH="$PATH:/home/olaf/.dotnet/tools"
     . ~/.bashrc  # reload bashrc Settings
 
+    sudo apt install dotnet-sdk-6.0
     dotnet tool install --global PowerShell
     dotnet tool uninstall --global PowerShell
     dotnet tool list --global

@@ -2,13 +2,17 @@
 
 Traefik ist ein reverse proxy mit der Möglichkeit via Let's encrypt Zertifikate zu erstellen und automatisch zu verlängern. Traefik hat den Vorteil, dass es komplett via Docker steuerbar ist und somit keine weiteren Einstellungen notwendig sind.
 
-# WICHTIG!
+https://hub.docker.com/_/traefik  
+
+http://192.168.178.20:8180/dashboard#/  
+
+## WICHTIG!
 Die Konfiguration für Traefik zieht die Sicherheitsanforderungen ziemlich an. Hiermit eine ein Rating von A+ beim [SSLLabs Test](https://www.ssllabs.com/ssltest) erreicht.
 
 Es werden nur aktuelle Browser unterstützt! Sollte das nicht gewollt sein, muss die 
 providers.yml Datei angepasst werden. 
 
-# Vorbereitung
+## Vorbereitung
 Um Traefik mit meinen Dateien nutzen zu können muss folgendes durchgeführt werden
 
 ## Netzwerk anlegen
@@ -24,8 +28,8 @@ cd config/ACME
 chmod 600 acme.json
 ```
 
-# Dashboard
-Um das Dashboard nutzen zu können muss die Sektion "label" in der Docker-Compose Datei auskommentiert werden. Es ist darauf zu achten, dass die Einrückungen stimmen; dazu kann sich an den anderen Sektionen orientiert werden. Anschließend muss man noch Benutzer
+## Dashboard
+Um das Dashboard nutzen zu können muss die Sektion "label" in der Docker-Compose Datei auskommentiert werden. Anschließend muss man noch Benutzer  
 und Passwort für das Dashboard erstellen. Hierzu ist ````apache2-utils```` erforderlich.
 ````bash
 sudo apt install apache2-utils -y
@@ -35,6 +39,7 @@ Nun erstellen wir mit folgendem Befehl die Benutzer/Passwort Kombination (die sp
 
 ````bash
 echo $(htpasswd -nbB <USER> "<PASS>") | sed -e s/\\$/\\$\\$/g
+echo $(htpasswd -nbB admin "7hpAa2UeNHcQP7pXmGuM") | sed -e s/\\$/\\$\\$/g
 ````
  Nachdem der Befehl ausgeführt wurde, gibt die Konsole eine Zeile mit dem generierten Benutzernamen:Passphrase aus. Diese Zeile ist zu kopieren und in die docker-compose.yaml bei folgendem Label einzutragen:
 

@@ -51,6 +51,21 @@ services:
       - traefik_proxy
       - default
 
+  adminer_recipes:
+    image: adminer
+    container_name: recipes_adminer
+    restart: unless-stopped
+    ports:
+      - "8083:8080"
+  #   environment:
+  #     # https://github.com/wodby/adminer   http://192.168.178.20:8082/?server=nextcloud-db&username=nextcloud&db=nextcloud
+  #     - ADMINER_DEFAULT_SERVER=recipes_db
+  #     - ADMINER_DEFAULT_DB_DRIVER=PostgreSQL
+  #     - ADMINER_DESIGN=nette #galkaev #nette #kahi #bueltge #rmsoft_blue # https://github.com/vrana/adminer/tree/master/designs  
+  #     # - ADMINER_DEFAULT_DB_NAME=nextcloud   #funktioniert nicht 
+  #     - ADMINER_PLUGINS=tables-filter tinymce
+  #     # - MYSQL_ROOT_PASSWORD=example
+
 networks:
   traefik_proxy:
     external:

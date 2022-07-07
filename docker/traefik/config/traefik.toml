@@ -11,6 +11,7 @@
     
 [api]
   dashboard = true
+  insecure = true
 
 # https://doc.traefik.io/traefik/routing/entrypoints/#redirection
 [entryPoints.web]

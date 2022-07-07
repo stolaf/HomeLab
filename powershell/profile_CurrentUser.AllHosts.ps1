@@ -2,7 +2,6 @@
 * Mein Powershell Profile CurrentUserAllHosts $Profile.CurrentUserAllHosts
 #>
 
-
 function Start-mySettings {
     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -171,7 +170,7 @@ Write-Host "Profile Load CurrentUserAllHosts: $($Profile.CurrentUserAllHosts)" -
 
 Import-Module -Name 'Terminal-Icons'
 Import-Module -Name 'PSFzf'
-Set-PSReadLineOption -EditMode Emacs -BellStyle None -PredictionSource History -Colors @{InlinePrediction = "$($PSStyle.Foreground.Black)$($PSStyle.Foreground.Cyan)" }
+Set-PSReadLineOption -EditMode Emacs -BellStyle None -PredictionSource HistoryAndPlugin -Colors @{InlinePrediction = "$($PSStyle.Foreground.Black)$($PSStyle.Foreground.Cyan)" }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
 
 $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.Foreground.Green

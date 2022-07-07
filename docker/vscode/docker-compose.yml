@@ -3,7 +3,7 @@ version: "3"
 services:
   codeserver:
     image: lscr.io/linuxserver/code-server:latest
-    container_name: codeserver
+    container_name: vscode
     restart: unless-stopped
     volumes:
       - /var/docker/vscode/config:/config

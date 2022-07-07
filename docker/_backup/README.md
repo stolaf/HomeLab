@@ -5,8 +5,8 @@ Anregungen geholt von:
 https://github.com/alaub81/backup_docker_scripts  
 https://www.laub-home.de/wiki/Startseite  
 
-chmod +x /home/olaf/Documents/homelab/docker/_backup/*.sh
-chmod +x /home/olaf/Documents/homelab/docker/_backup/*.ps1
+# ls -la /home/olaf/Documents/homelab/docker/*/backup*.sh
+chmod +x /home/olaf/Documents/homelab/docker/*/backup*.sh
 
 ## Regelmäßiger Backup
 https://www.laub-home.de/wiki/Docker_MySQL_and_MariaDB_Backup_Script  

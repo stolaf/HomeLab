@@ -5,6 +5,12 @@ Daher besteht dieser Service nur aus einem Container und nicht auf einer vielzah
 https://hub.docker.com/r/vaultwarden/server  
 https://github.com/dani-garcia/vaultwarden
 
+http://192.168.178.20:8084
+
+
+## Backup
+https://github.com/dani-garcia/vaultwarden/wiki/Backing-up-your-vault#restoring-backup-data  
+
 ## WICHTIG!
 Bei Problemem mit Bitwarden: 
 [Entwickler](https://github.com/dani-garcia/bitwarden_rs)

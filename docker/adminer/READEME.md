@@ -5,3 +5,6 @@
  MS SQL, Oracle, Firebird, SimpleDB, Elasticsearch and MongoDB.
 
  https://hub.docker.com/_/adminer
+
+Designs:  https://github.com/vrana/adminer/tree/master/designs  
+Variables: https://github.com/wodby/adminer  
