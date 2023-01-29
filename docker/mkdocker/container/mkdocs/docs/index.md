@@ -1,2 +1,0 @@
-# Meine persönliche techn. Dokumentationen
-
