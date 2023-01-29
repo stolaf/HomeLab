@@ -187,6 +187,8 @@ function Install-myPWSH_Environment {
     Install-Module -Name 'Selenium' -Repository PSGallery -Scope CurrentUser -force
     # v2.6.2 funktioniert derzeit nicht (14.06.2022), siehe https://github.com/Badgerati/Pode/issues/965
     Install-Module -Name 'Pode' -Repository PSGallery -Scope CurrentUser -RequiredVersion 2.5.2 -force  
+    Install-Module -Name 'PoshLog'
+    Install-Module -Name 'PoShLog.Enrichers'
 
     if ($IsWindows) {
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
