@@ -1,0 +1,123 @@
+{
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.editorAssociations": {
+        "*.csv": "default",
+        "*.xlsx": "default"
+    },
+    "debug.openDebug": "neverOpen",
+    "files.autoSave": "afterDelay",
+    //"files.defaultLanguage": "powershell",
+    "extensions.ignoreRecommendations": true,
+    "extensions.autoUpdate": true,
+    "powershell.codeFormatting.newLineAfterOpenBrace": false,
+    "powershell.codeFormatting.openBraceOnSameLine": true,
+    "powershell.codeFormatting.autoCorrectAliases": true,
+    "powershell.codeFormatting.preset": "OTBS",
+    "powershell.integratedConsole.focusConsoleOnExecute": false,
+    "powershell.integratedConsole.showOnStartup": true,
+    "powershell.promptToUpdatePowerShell": false,
+    "powershell.scriptAnalysis.enable": true,
+    "powershell.startAutomatically": true,
+    "powershell.enableProfileLoading": true,
+    //"powershell.developer.editorServicesLogLevel": "Verbose",
+    "powershell.scriptAnalysis.settingsPath": "ScriptAnalyzerSettings.psd1",
+    "powershell.pester.useLegacyCodeLens": false,
+    "window.title": "${activeEditorLong}",
+    "editor.minimap.enabled": false,
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
+    //"editor.defaultFormatter": "ms-vscode.powershell",
+    "editor.matchBrackets": "always",
+    "editor.dragAndDrop": true,
+    "editor.lineNumbers": "on",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.mouseWheelZoom": true,
+    "editor.formatOnSave": true,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "on",
+    "editor.cursorStyle": "line-thin",
+    //"editor.fontFamily": "Consolas, 'Courier New', monospace,'Agave NF'",
+    "editor.fontFamily": "CascadiaCode",
+    "editor.fontSize": 14,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    //"powershell.powerShellAdditionalExePaths": {
+    //    "PowerShell 7 Preview": "C:\\Program Files\\PowerShell\\PowerShell-7.4.0-preview.1-win-x64\\pwsh.exe",
+    //    "PowerShell 7 AzureStack": "C:\\Program Files\\PowerShell\\PowerShell-7.2.6-win-x64\\pwsh.exe"
+    //},
+    //"powershell.powerShellDefaultVersion": "PowerShell 7 AzureStack",
+    "terminal.integrated.profiles.windows": {
+        "Git Bash": null,
+        "JavaScript Debug Terminal": null,
+        "kali-linux (WSL)": null,
+        "Ubuntu-20.04 (WSL)": null,
+        "Command Prompt": null,
+        "pwsh_7.4.0-preview": {
+            "path": "C:\\Program Files\\PowerShell\\PowerShell-7.4.0-preview.1-win-x64\\pwsh.exe",
+            "icon": "terminal-powershell",
+            "args": [],
+            "overrideName": true
+        },
+        "pwsh_7.4.0-preview-NoProfile": {
+            "path": "C:\\Program Files\\PowerShell\\PowerShell-7.4.0-preview.1-win-x64\\pwsh.exe",
+            "icon": "terminal-powershell",
+            "args": [
+                "-noprofile"
+            ],
+            "env": {
+                "Olaf": "Test" //not work
+            },
+            "overrideName": true
+        },
+        "pwsh_7.2.6": {
+            "path": "C:\\Program Files\\PowerShell\\PowerShell-7.2.6-win-x64\\pwsh.exe",
+            "icon": "terminal-powershell",
+            "args": [
+                //"-noprofile",
+                "-nologo"
+            ],
+            "overrideName": true
+        },
+        "pwsh_7.2.6-noprofile": {
+            "path": "C:\\Program Files\\PowerShell\\PowerShell-7.2.6-win-x64\\pwsh.exe",
+            "icon": "terminal-powershell",
+            "args": [
+                "-noprofile",
+                "-nologo"
+            ],
+            "overrideName": true
+        }
+    },
+    "terminal.integrated.fontFamily": "MesloLGS NFM",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.unicodeVersion": "6",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.smoothScrolling": true,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    //"terminal.integrated.cwd": "${workingfolder}",
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "telemetry.telemetryLevel": "crash",
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "window.zoomLevel": 1,
+    "markdown.links.openLocation": "beside",
+    "xml.server.binary.trustedHashes": [
+        "34f51b1d8c3b85bf8af72502c3a52ca841d11cf76f848be198631e0dd2b7e169"
+    ],
+    "settingsSync.ignoredSettings": [],
+    "vsicons.dontShowNewVersionMessage": true,
+    "xml.symbols.maxItemsComputed": 20000,
+    "workbench.editor.untitled.hint": "hidden",
+    "remote.SSH.remotePlatform": {
+        "bs-docker-01": "linux"
+    }
+}
