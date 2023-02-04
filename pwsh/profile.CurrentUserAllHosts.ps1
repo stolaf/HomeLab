@@ -332,7 +332,7 @@ Set-Alias ll ls
 Set-Alias g git
 Set-Alias grep findstr
 
-oh-my-posh init pwsh --config "$ENV:POSH_THEMES_PATH\my.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
 # code "$ENV:POSH_THEMES_PATH\my.omp.json"
 
 # Unlock-My_PWSH_Environment
