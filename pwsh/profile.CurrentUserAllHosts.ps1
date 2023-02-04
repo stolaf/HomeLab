@@ -319,6 +319,7 @@ function Unlock-My_PWSH_Environment {
     }
 }
 
+if (!Get-Module -Name 'Terminal-Icons') {Install-myPWSH_Environment}
 Import-Module -Name 'Terminal-Icons'
 if (Get-Module -Name 'PSFzf') { 
     Import-Module -Name 'PSFzf' 
