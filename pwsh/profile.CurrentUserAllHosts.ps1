@@ -320,17 +320,19 @@ function Unlock-My_PWSH_Environment {
 }
 
 Import-Module -Name 'Terminal-Icons'
-if (Get-Module -Name 'PSFzf') { Import-Module -Name 'PSFzf' }
+if (Get-Module -Name 'PSFzf') { 
+    Import-Module -Name 'PSFzf' 
+    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
+}
 if ($PSVersiontable.PSVersion.ToString() -gt '7.2.6') {
     Set-PSReadLineOption -EditMode Emacs -BellStyle None -PredictionSource HistoryAndPlugin -Colors @{InlinePrediction = "$($PSStyle.Foreground.Black)$($PSStyle.Foreground.Cyan)" }
     Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
 }
 $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.Foreground.Green
-Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
 
-Set-Alias ll ls
-Set-Alias g git
-Set-Alias grep findstr
+# Set-Alias ll ls
+# Set-Alias g git
+# Set-Alias grep findstr
 
 oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
 # code "$ENV:POSH_THEMES_PATH\my.omp.json"
