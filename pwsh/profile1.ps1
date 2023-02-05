@@ -1,5 +1,7 @@
 #Requires -Version 7
 
+# Test 
+
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $myProfile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
@@ -346,7 +348,7 @@ function Publish-FileToMyGitHub {
         Upload / Update File in mein Github Repository stolaf/homelab
 
         .DESCRIPTION
-        Upload / Update File in mein Github Repository stolaf/homelab
+        Upload / Update File in mein Github Repository stolaf/homelab 
 
         .EXAMPLE
          $SourceFileName = $($Profile.CurrentUserAllHosts)
@@ -374,7 +376,7 @@ function Publish-FileToMyGitHub {
     $Base64_content = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($text))
     $uri = "https://api.github.com/repos/stolaf/homelab/contents/$($GitRemoteFileName)?ref=main"
     try {
-        $response = Invoke-RestMethod -Method Get -Uri "$uri" -Headers @{Authorization = "Bearer $token" } 
+        $response = Invoke-RestMethod -Method Get -Uri "$uri" -Headers @{Authorization = "Bearer $myGithubToken" } 
     } catch {
         $response = $null 
     }
