@@ -240,7 +240,7 @@ function Install-myPWSH_Environment {
         unzip bw-linux.zip
         chmod u+x bw
         sudo mv bw /usr/local/bin
-        Remove-Item bw-linux.zip -f
+        Remove-Item bw-linux.zip -force
      
         mkdir ~/.config/powershell -p
         mkdir /home/codespace/.config/powershell -p
