@@ -10,6 +10,7 @@ if (!(Get-Item -Path $($Profile.CurrentUserAllHosts))) {
     # rm /home/codespace/.config/powershell/profile.ps1 -f
     # wget -O /home/codespace/.config/powershell/profile.ps1 https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1 
     wget -O /home/codespace/.config/powershell/profile.ps1 https://raw.githubusercontent.com/stolaf/homelab/3aa35349073a85ba3afbf02e78e8974cd603f5ef/pwsh/profile.CurrentUserAllHosts.ps1
+    cat /home/codespace/.config/powershell/profile.ps1
 }
 
 function Install-PWSH {
@@ -339,3 +340,4 @@ $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.For
 
 oh-my-posh init pwsh --config $myOhMyPoshTheme_Url  | Invoke-Expression
 
+# Test
