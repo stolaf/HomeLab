@@ -340,4 +340,4 @@ $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.For
 
 oh-my-posh init pwsh --config $myOhMyPoshTheme_Url  | Invoke-Expression
 
-# Test
+# Test1
