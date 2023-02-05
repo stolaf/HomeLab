@@ -5,6 +5,7 @@ $myOhMyPoshTheme_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pw
 
 if (!(Get-Item -Path $($Profile.CurrentUserAllHosts))) {
     Invoke-WebRequest $myProfile_CurrentUserAllHosts_Url -OutFile $($Profile.CurrentUserAllHosts)
+    # wget -O /home/codespace/.config/powershell/profile.ps1 https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1 
 }
 
 function Install-PWSH {
