@@ -8,7 +8,7 @@ Publish-FileToMyGitHub -SourceFileName $($Profile.CurrentUserAllHosts) -GitRemot
 
 $myProfile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
 $myOhMyPoshTheme_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json'
-
+$ProgressPreference = 'SilentlyContinue'  
 
 if (!(Get-Item -Path $($Profile.CurrentUserAllHosts))) {
     # rm /home/codespace/.config/powershell/profile.ps1 -f
@@ -467,5 +467,6 @@ $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.For
 # Set-Alias grep findstr
 
 Unlock-My_PWSH_Environment
+$ProgressPreference = 'Continue' 
 oh-my-posh init pwsh --config $myOhMyPoshTheme_Url  | Invoke-Expression
 
