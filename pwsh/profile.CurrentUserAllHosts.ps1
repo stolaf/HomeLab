@@ -236,7 +236,7 @@ function Install-myPWSH_Environment {
         unzip bw-linux.zip
         chmod u+x bw
         sudo mv bw /usr/local/bin
-        rm bw-linux.zip -f
+        Remove-Item bw-linux.zip -f
      
         mkdir ~/.config/powershell -p
         mkdir /home/codespace/.config/powershell -p
@@ -332,6 +332,64 @@ function Unlock-My_PWSH_Environment {
             Write-Host ''
         }
     }
+}
+
+function Publish-FileToMyGitHub {
+    <#
+        .SYNOPSIS
+        Upload / Update File in mein Github Repository stolaf/homelab
+
+        .DESCRIPTION
+        Upload / Update File in mein Github Repository stolaf/homelab
+
+        .EXAMPLE
+         $SourceFileName = $($Profile.CurrentUserAllHosts)
+         $GitRemoteFileName = 'pwsh/profile1.ps1'
+         Publish-FileToMyGitHub -SourceFileName $SourceFileName -GitRemoteFileName $GitRemoteFileName -PassThru
+
+        .EXAMPLE
+        Publish-FileToMyGitHub -SourceFileName $($Profile.CurrentUserAllHosts) -GitRemoteFileName 'pwsh/profile.CurrentUserAllHosts.ps1'
+    #>
+
+    [cmdletbinding()]
+    param(
+        [Parameter(Mandatory = $true)][string]$SourceFileName,
+        [Parameter(Mandatory = $true)][string]$GitRemoteFileName,
+        [switch] $PassThru
+    )
+
+    if (!(Get-Item -Path $SourceFileName)) {
+        Write-Error "SourceFileName '$SourceFileName' not exist!"
+        return
+    }
+    $myGithubToken = "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"
+    $text = Get-Content $SourceFileName -Raw
+    $Base64_content = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($text))
+    $uri = "https://api.github.com/repos/stolaf/homelab/contents/$($GitRemoteFileName)?ref=main"
+    try {
+        $response = Invoke-RestMethod -Method Get -Uri "$uri" -Headers @{Authorization = "Bearer $token" } 
+    } catch {
+        $response = $null 
+    }
+
+    if ($response.status -eq 404) {
+        # File does not exist, perform upload
+        $body = @{
+            "message" = "Upload file via PowerShell"
+            "content" = $Base64_content 
+        } | ConvertTo-Json
+    } Else {
+        # File exists, perform update
+        $sha = $response.sha
+        $body = @{
+            "message" = "Updated file via PowerShell"
+            "content" = $Base64_content 
+            "sha"     = $sha
+        } | ConvertTo-Json
+    }
+    $Response = Invoke-RestMethod -Method Put -Uri "$($uri)?encoding=base64"  -Headers @{Authorization = "Bearer $myGithubToken"; Accept = "application/vnd.github+json" } -Body $body -ContentType "application/vnd.github.v3+json"
+    
+    if ($PassThru) { return $Response.content }
 }
 
 # Beim ersten Aufruf des Profils wird Install-myPWSH_Environment aufgerufen
