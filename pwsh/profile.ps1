@@ -1,6 +1,6 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-# Test
+# Test1
 function Install-PWSH {
     if ($IsLinux) {
         <#      Installation über DOTNET
