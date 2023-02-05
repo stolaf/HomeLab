@@ -1,50 +1,90 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$Profile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
+$myProfile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
+$myOhMyPoshTheme_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json'
 
+# test 
 function Install-PWSH {
+    <#
+        .SYNOPSIS
+        Dient nur als Vorlage um PWSH und oh-my-posh zu installieren
+
+        .DESCRIPTION
+        Dient nur als Vorlage um PWSH und oh-my-posh zu installieren
+
+        .EXAMPLE
+        Install-PWSH
+        oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
+    #>
+
+    [CmdletBinding()]
     if ($IsLinux) {
-        if ($(lsb_release -is) -Match 'Ubuntu') {
-            sudo apt-get update
-            sudo apt-get install -y wget apt-transport-https software-properties-common  # Install pre-requisite packages.
-            wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb  # Download the Microsoft repository GPG keys
-            sudo dpkg -i packages-microsoft-prod.deb   # Register the Microsoft repository GPG keys
-            sudo apt-get update  # Update the list of packages after we added packages.microsoft.com
-            sudo apt-get install -y powershell
-            # pwsh
-        }
+        sudo apt-get update
+        sudo apt-get install -y wget apt-transport-https software-properties-common  # Install pre-requisite packages.
+        $lsb_release = $(lsb_release -is).ToLower()
+        wget -q "https://packages.microsoft.com/config/$lsb_release/$(lsb_release -rs)/packages-microsoft-prod.deb"  
+        sudo dpkg -i packages-microsoft-prod.deb   # Register the Microsoft repository GPG keys
+        sudo apt-get update  # Update the list of packages after we added packages.microsoft.com
+        sudo apt-get install -y powershell
+
+        sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh  
+        sudo chmod +x /usr/local/bin/oh-my-posh
+        
     }
     if ($IsWindows) {
-        winget install Microsoft.PowerShell
+        winget install Microsoft.PowerShell -s winget
+        winget install JanDeDobbeleer.OhMyPosh  -s winget
     }
+    oh-my-posh font install Meslo
 }
+
 function Install-OpenSSH {
+    <#
+        .SYNOPSIS
+        Dient nur als Vorlage um OpenSSH zu installieren
+
+        .DESCRIPTION
+        Dient nur als Vorlage um OpenSSH zu installieren
+
+        .EXAMPLE
+        Install-OpenSSH
+    #>
+
+    [CmdletBinding()]
+
+    Install-Module -Name 'Microsoft.PowerShell.RemotingTools' -force
+    Import-Module -Name Microsoft.PowerShell.RemotingTools
+
     if ($IsWindows) {
         Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
         Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
         Set-Service -Name sshd -StartupType 'Automatic'
         Start-Service -Name sshd
-        Install-Module -Name Microsoft.PowerShell.RemotingTools	
-        Import-Module -Name Microsoft.PowerShell.RemotingTools
         Enable-SSHRemoting -Verbose
         Restart-Service -Name sshd
-
-        # Powershell Remoting
-        Start-Process https://4sysops.com/archives/install-powershell-remoting-over-ssh/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+4sysops+%284sysops%29
     }
 
     if ($IsLinux) {
-        Install-Module -Name 'Microsoft.PowerShell.RemotingTools'
         Enable-SSHRemoting -Verbose 
         sudo service ssh restart
     }
 }
+
 function Install-Software {
+     <#
+        .SYNOPSIS
+        Dient nur als Vorlage um meine verwendete Software zu installieren
+
+        .DESCRIPTION
+        Dient nur als Vorlage um meine verwendete Software zu installieren
+
+        .EXAMPLE
+        Install-Software
+    #>
+    [CmdletBinding()]
+
     if ($IsWindows) {
         $null = mkdir C:\Temp -ErrorAction SilentlyContinue
-        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
-        Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
         #region Winget
         winget install Brave.Brave
@@ -75,20 +115,17 @@ function Install-Software {
         winget install GIMP.GIMP
         winget install JanDeDobbeleer.OhMyPosh
         winget install Microsoft.PowerToys
-        # winget install RoyalApps.RoyalTS
         winget install Devolutions.RemoteDesktopManagerFree
-
-        Start-Process https://www.citrix.com/downloads/citrix-receiver/additional-client-software/hdx-realtime-media-engine-latest.html
-
         #endregion Winget
+
+        # Citrix Receiver
+        Start-Process https://www.citrix.com/downloads/citrix-receiver/additional-client-software/hdx-realtime-media-engine-latest.html
 
         #KNX ETS 5 manuelle Installation
         Start-Process 'https://support.knx.org/hc/de/articles/360021434999-ETS-v5-7-6'
 
         #WISO Vermieter manuelle Installation
         Start-Process 'https://www.buhl.de/produkte/wiso-vermieter'   # Anmelden und Software downloaden
-
-        #region Allgemeine Windows Einstellungen
 
         #Cortana Bingsuche abschalten
         New-NetFirewallRule -DisplayName "Block Cortana Outbound Traffic" -Direction Outbound -Program "C:\Windows\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\SearchUI.exe" -Action Block
@@ -127,19 +164,33 @@ function Install-Software {
         # https://docs.microsoft.com/de-de/windows/wsl/install
         wsl.exe  –set-default-version 2
 
-        #MS Ondrive aus Explorer entfernen
-        $Null = New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
-        Set-ItemProperty -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Name 'System.IsPinnedToNameSpaceTree' -Value 0 -Force
-        Set-ItemProperty -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Name 'System.IsPinnedToNameSpaceTree' -Value 0 -Force
+        #MS Ondrive aus Explorer entfernen bei Bedarf
+        <#
+            $Null = New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
+            Set-ItemProperty -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Name 'System.IsPinnedToNameSpaceTree' -Value 0 -Force
+            Set-ItemProperty -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Name 'System.IsPinnedToNameSpaceTree' -Value 0 -Force
+        #>
 
         Set-Service beep -StartupType disabled
         Stop-Service beep
-        #endregion Allgemeine Windows Einstellungen
     }
 }
+
 function Install-myPWSH_Environment {
+    <#
+        .SYNOPSIS
+        Konfiguriert meine persönlichen Powershell Einstellungen
+
+        .DESCRIPTION
+        Konfiguriert meine persönlichen Powershell Einstellungen
+
+        .EXAMPLE
+        Install-myPWSH_Environment
+    #>
+    
+    [CmdletBinding()]
+
     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     Register-PackageSource -Name 'NuGet' -Location "http://www.nuget.org/api/v2" -ProviderName Nuget -Trusted
 
     Install-Module -Name 'z' -Repository PSGallery -Scope CurrentUser -force
@@ -149,7 +200,6 @@ function Install-myPWSH_Environment {
     Install-Module -Name 'ImportExcel' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Microsoft.Powershell.SecretManagement' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Microsoft.Powershell.SecretStore' -Repository PSGallery -Scope CurrentUser -force
-     
     # Install-Module -Name 'SecretManagement.KeePass' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'PlatyPS' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Pester' -Repository PSGallery -Scope CurrentUser -force
@@ -158,9 +208,13 @@ function Install-myPWSH_Environment {
     Install-Module -Name 'Pode' -Repository PSGallery -Scope CurrentUser -RequiredVersion 2.5.2 -force  
     Install-Module -Name 'PoshLog'
     Install-Module -Name 'PoShLog.Enrichers'
+    Install-Module -Name 'PSFzf' -Repository PSGallery -Scope CurrentUser -force
 
     if ($IsWindows) {
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+
+        # Module die nur unter Windows funktionieren
+        Install-Module -Name 'NTFSSecurity' -Scope CurrentUser -Force
 
         #region FuzzySearch  https://github.com/junegunn/fzf/releases  exe File herunterladen und nach system32 kopieren
         Invoke-WebRequest 'https://github.com/junegunn/fzf/releases/download/0.30.0/fzf-0.30.0-windows_amd64.zip' -OutFile '~/Downloads/fzf.zip'
@@ -170,32 +224,35 @@ function Install-myPWSH_Environment {
         Remove-Item -Path '~/Downloads/fzf' -Recurse -force -EA 0
         Install-Module -Name 'PSFzf' -Repository PSGallery -Scope CurrentUser -force
         #endregion FuzzySearch
-
-        winget install JanDeDobbeleer.OhMyPosh  -s winget
-        oh-my-posh font install Meslo
-        
-        # Module die nur unter Windows funktionieren
-        Install-Module -Name 'NTFSSecurity' -Scope CurrentUser -Force
     }
-
     if ($IsLinux) {
-        sudo apt-get install sudo, curl, fzf, unzip, snap
+        sudo apt-get install sudo curl fzf unzip snapd -y
 
-        # sudo snap install bw  # Bitwarden CLI
+        # sudo snap install bw  
         # bw config server https://bitwarden.stagge.it
-     
-        Install-Module -Name 'PSFzf' -Repository PSGallery -Scope CurrentUser -force
-        
-        
-        wget $Profile_CurrentUserAllHosts_Url -O /home/olaf/.config/powershell/profile.ps1
 
-        sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh  
-        sudo chmod +x /usr/local/bin/oh-my-posh
-        oh-my-posh font install Meslo
-        mkdir ~/.config/powershell
+        mkdir ~/.config/powershell -p
+        sudo apt autoremove
     }
+    Update-module 
+    Invoke-WebRequest $myProfile_CurrentUserAllHosts_Url -OutFile $($Profile.CurrentUserAllHosts)
 }
+
 function Install-VSCode {
+     <#
+        .SYNOPSIS
+        Dient als Vorlage für meine persönlichen VSCode Einstellungen
+
+        .DESCRIPTION
+        Dient als Vorlage für meine persönlichen VSCode Einstellungen
+        Extensions, Settings, Snippets etc. können über Profile export und importiert werden
+
+        .EXAMPLE
+        Install-VSCode
+    #>
+    
+    [CmdletBinding()]
+    
     git config --global user.email "olaf.stagge@posteo.de"
     git config --global user.name "olaf.stagge@posteo.de"
     git config --global --list   
@@ -206,36 +263,28 @@ function Install-VSCode {
         # https://gist.github.com/rkeithhill/60eaccf1676cf08dfb6f
         # https://germanpowershell.com/visual-studio-code/
     }
-
-    <# Extensions
-    - Powershell
-    - vscode-icons
-    - Remote SSH
-    - Docker
-    - GitLab Workflow
-    - Go
-    - Hexeditor
-    - CodeSnap : Take beautiful screenshots of your code
-    - Open in Default Browser
-    - vscode-pdf
-    - XML
-    - YAML
-    - Flux : InfluxDB 
-    #>
-
 }
+
 function Unlock-My_PWSH_Environment {
+     <#
+        .SYNOPSIS
+        Dient als Vorlage für meine persönliche Powershell Umgebung 
+
+        .DESCRIPTION
+       Dient als Vorlage für meine persönliche Powershell Umgebung 
+
+        .EXAMPLE
+        Unlock-My_PWSH_Environment
+    #>
+    
+    [CmdletBinding()]
+
     # ls -la $HOME/.secretmanagement/localstore/
-    # update-module -verbose
-    # Get-module -Name Microsoft.PowerShell.Secret* -list
-    # Uninstall-Module Microsoft.PowerShell.SecretStore -Force
-    # Install-Module -Name Microsoft.PowerShell.SecretStore -Repository PSGallery
-    # Install-Module -Name Microsoft.PowerShell.SecretManagement -Repository PSGallery -Force
-    # Get-Module -Name Microsoft.PowerShell.SecretStore
     # Unregister-SecretVault -Name SecretStore
     # Set-SecretStorePassword -NewPassword $newss
     # Reset-SecretStore -Force -PassThru   # wichtig wenn SecretStore rumzickt!!!
-    Register-SecretVault -Name SecretStore -ModuleName Microsoft.Powershell.SecretStore -DefaultVault -AllowClobber 
+    Import-Module 'Microsoft.Powershell.SecretStore'
+    Register-SecretVault -Name SecretStore -ModuleName 'Microsoft.Powershell.SecretStore' -DefaultVault -AllowClobber 
     # Get-SecretVault | Select-Object *
     # $ss = ConvertTo-SecureString -AsPlainText '19I...' -Force
     # Unlock-SecretStore -PasswordTimeout 0 -Password $ss
@@ -270,12 +319,15 @@ function Unlock-My_PWSH_Environment {
     }
 }
 
-if (!(Get-Module -Name 'Terminal-Icons' -EA 0)) {Install-myPWSH_Environment}
-Import-Module -Name 'Terminal-Icons'
-if (Get-Module -Name 'PSFzf') { 
-    Import-Module -Name 'PSFzf' 
-    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
+# Beim ersten Aufruf des Profils wird Install-myPWSH_Environment aufgerufen
+if (!(Get-Module -Name 'Terminal-Icons' -EA 0)) {
+    Install-myPWSH_Environment
 }
+
+Import-Module -Name 'Terminal-Icons'
+Import-Module -Name 'PSFzf' 
+Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
+
 if ($PSVersiontable.PSVersion.ToString() -gt '7.2.6') {
     Set-PSReadLineOption -EditMode Emacs -BellStyle None -PredictionSource HistoryAndPlugin -Colors @{InlinePrediction = "$($PSStyle.Foreground.Black)$($PSStyle.Foreground.Cyan)" }
     Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
@@ -286,6 +338,5 @@ $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.For
 # Set-Alias g git
 # Set-Alias grep findstr
 
-oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
-
+oh-my-posh init pwsh --config $myOhMyPoshTheme_Url  | Invoke-Expression
 
