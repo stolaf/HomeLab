@@ -83,7 +83,7 @@ function Install-BW {
 
     if ($IsLinux) {
         # sudo snap install bw # funktioniert nicht mehr
-        wget "https://vault.bitwarden.com/download/?app=cli&platform=linux"  -o bw-linux.zip  # Codespace: auf dem Desktop herunter laden und dann hochladen
+        wget -q "https://vault.bitwarden.com/download/?app=cli&platform=linux"  -O bw-linux.zip  # Codespace: auf dem Desktop herunter laden und dann hochladen
         unzip bw-linux.zip
         chmod u+x bw
         sudo mv bw /usr/local/bin
