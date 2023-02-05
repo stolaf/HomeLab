@@ -296,9 +296,11 @@ function Unlock-My_PWSH_Environment {
     Set-SecretStoreConfiguration -Scope CurrentUser -Authentication None -PasswordTimeout 0 -Confirm:$false # -Password $ss
     # Set-SecretStoreConfiguration -Scope CurrentUser -PasswordTimeout 3600 -Confirm:$false 
     # Get-SecretStoreConfiguration 
-    # bw list items --search google --pretty
-    # bw get item 86e639ad-425f-44e9-96ec-33aff0981243 --pretty
-    # bw get password 86e639ad-425f-44e9-96ec-33aff0981243 
+    # bw list items --pretty
+    # bw list items --search github --pretty
+    # bw get item 6f85b1b9-6212-4c24-a34c-da4ac49115d0 --pretty
+    # bw get password 6f85b1b9-6212-4c24-a34c-da4ac49115d0
+    # bw get password mygithubtoken
     # bw generate -lusn --length 20
 
     # Remove-Secret -Name 'myBitwarden' -Vault SecretStore
@@ -307,6 +309,10 @@ function Unlock-My_PWSH_Environment {
     }
     if (!(Get-Secret -Name 'myBitwarden' -Vault SecretStore -ErrorAction SilentlyContinue)) {
         Set-Secret -Name 'myBitwarden' -Vault SecretStore -Metadata @{Comment = 'myBitwarden Safe' } -Secret (Get-Credential -UserName 'olaf.stagge@posteo.de' -Message 'Input myBitwarden Password')
+    }
+    if (!(Get-Secret -Name 'myGitHubToken' -Vault SecretStore -ErrorAction SilentlyContinue)) {
+        # Remove-Secret -Name 'myGitHubToken' -Vault SecretStore
+        Set-Secret -Name 'myGitHubToken' -Vault SecretStore -Metadata @{Comment = 'myGitHubToken' } -Secret (Get-Credential -UserName 'myGitHubToken' -Message 'Input myGitHubToken')
     }
     $myBitwarden = Get-Secret -Name 'myBitwarden' -Vault SecretStore 
 
@@ -340,7 +346,7 @@ function Publish-FileToMyGitHub {
         Upload / Update File in mein Github Repository stolaf/homelab
 
         .DESCRIPTION
-        Upload / Update File in mein Github Repository stolaf/homelab
+        Upload / Update File in mein Github Repository stolaf/homelab 
 
         .EXAMPLE
          $SourceFileName = $($Profile.CurrentUserAllHosts)
@@ -362,12 +368,13 @@ function Publish-FileToMyGitHub {
         Write-Error "SourceFileName '$SourceFileName' not exist!"
         return
     }
-    $myGithubToken = "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"
+    $myGithubTokenCredential = Get-Secret -Name 'myGitHubToken' -Vault SecretStore 
+    $myGithubToken = $myGithubTokenCredential.GetNetworkCredential().Password
     $text = Get-Content $SourceFileName -Raw
     $Base64_content = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($text))
     $uri = "https://api.github.com/repos/stolaf/homelab/contents/$($GitRemoteFileName)?ref=main"
     try {
-        $response = Invoke-RestMethod -Method Get -Uri "$uri" -Headers @{Authorization = "Bearer $token" } 
+        $response = Invoke-RestMethod -Method Get -Uri "$uri" -Headers @{Authorization = "Bearer $myGithubToken" } 
     } catch {
         $response = $null 
     }
