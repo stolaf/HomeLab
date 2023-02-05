@@ -10,7 +10,7 @@
 	// 		"console.log('$1');",
 	// 		"$2"
 	// 	],
-	// 	"description": "Log output to console1"
+	// 	"description": "Log output to console"
 	// }
 	"PSCustomObject": {
 		"prefix": "PSCustomObject Geruest",
