@@ -231,9 +231,13 @@ function Install-myPWSH_Environment {
     if ($IsLinux) {
         sudo apt-get install sudo curl fzf unzip snapd -y
 
-        # sudo snap install bw  
-        # bw config server https://bitwarden.stagge.it
-
+        # sudo snap install bw # funktioniert nicht mehr
+        wget "https://vault.bitwarden.com/download/?app=cli&platform=linux"  -o bw-linux.zip  # Codespace: auf dem Desktop herunter laden und dann hochladen
+        unzip bw-linux.zip
+        chmod u+x bw
+        sudo mv bw /usr/local/bin
+        rm bw-linux.zip -f
+     
         mkdir ~/.config/powershell -p
         mkdir /home/codespace/.config/powershell -p
         sudo apt autoremove
@@ -279,6 +283,7 @@ function Unlock-My_PWSH_Environment {
         Unlock-My_PWSH_Environment
     #>
     
+
     # ls -la $HOME/.secretmanagement/localstore/
     # Unregister-SecretVault -Name SecretStore
     # Set-SecretStorePassword -NewPassword $newss
@@ -291,8 +296,15 @@ function Unlock-My_PWSH_Environment {
     Set-SecretStoreConfiguration -Scope CurrentUser -Authentication None -PasswordTimeout 0 -Confirm:$false # -Password $ss
     # Set-SecretStoreConfiguration -Scope CurrentUser -PasswordTimeout 3600 -Confirm:$false 
     # Get-SecretStoreConfiguration 
+    # bw list items --search google --pretty
+    # bw get item 86e639ad-425f-44e9-96ec-33aff0981243 --pretty
+    # bw get password 86e639ad-425f-44e9-96ec-33aff0981243 
+    # bw generate -lusn --length 20
 
     # Remove-Secret -Name 'myBitwarden' -Vault SecretStore
+    if (!(Get-SecretVault -Name SecretStore -ErrorAction SilentlyContinue)) {
+        Register-SecretVault -Name SecretStore -ModuleName Microsoft.PowerShell.SecretStore -DefaultVault
+    }
     if (!(Get-Secret -Name 'myBitwarden' -Vault SecretStore -ErrorAction SilentlyContinue)) {
         Set-Secret -Name 'myBitwarden' -Vault SecretStore -Metadata @{Comment = 'myBitwarden Safe' } -Secret (Get-Credential -UserName 'olaf.stagge@posteo.de' -Message 'Input myBitwarden Password')
     }
@@ -303,17 +315,20 @@ function Unlock-My_PWSH_Environment {
     $Token = bw unlock --raw $($myBitwarden.GetNetworkCredential().Password)
     $env:BW_SESSION = "$Token"
 
+    return 
+
+    # Das aktuelle ProfileScript bei Bedarf herunterladen : Geht leider nur mit GitLab
     $GitLab_Token = bw get item 084f6d89-93d8-40a0-bf55-17a5c1f1e947 --pretty | ConvertFrom-Json
     $PrivateToken = ($GitLab_Token.fields | Where-Object { $_.name -Match 'myCurl_Token' }).Value
     $Headers = @{'Private-Token' = $PrivateToken }
-    
-    # Get ProfileScript File Information
+
     $FileHash = Get-FileHash -Path $($Profile.CurrentUserAllHosts)
-    $RestMethod = Invoke-RestMethod -Headers $Headers -Uri $Profile_CurrentUserAllHosts_Url -SkipHttpErrorCheck
+    $Uri = "https://github.com/stolaf/homelab/blob/main/pwsh/profile.CurrentUserAllHosts.ps1"
+    $RestMethod = Invoke-RestMethod -Uri $Uri -SkipHttpErrorCheck
     if ($RestMethod.Message -notmatch '404') {
         if ($($RestMethod.content_sha256) -ne $($FileHash.Hash)) {
-            # Download newer ProfileScript
-            Invoke-RestMethod -Headers $Headers -Uri "https://gitlab.stagge.it/api/v4/projects/2/repository/files/powershell%2Fprofile_CurrentUser.AllHosts.ps1/raw?ref=main" -OutFile $($Profile.CurrentUserAllHosts)
+            # Download neueres ProfileScript
+            Invoke-RestMethod -Headers $Headers -Uri $myProfile_CurrentUserAllHosts_Url -OutFile $($Profile.CurrentUserAllHosts)
             Write-Host ''
         }
     }
@@ -338,6 +353,6 @@ $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.For
 # Set-Alias g git
 # Set-Alias grep findstr
 
+Unlock-My_PWSH_Environment
 oh-my-posh init pwsh --config $myOhMyPoshTheme_Url  | Invoke-Expression
 
-# Test1
