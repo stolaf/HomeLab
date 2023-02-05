@@ -119,5 +119,6 @@
     "workbench.editor.untitled.hint": "hidden",
     "remote.SSH.remotePlatform": {
         "bs-docker-01": "linux"
-    }
+    },
+    "redhat.telemetry.enabled": true
 }
