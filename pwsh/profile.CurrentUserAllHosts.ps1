@@ -3,7 +3,6 @@
 $myProfile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
 $myOhMyPoshTheme_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json'
 
-# test 
 function Install-PWSH {
     <#
         .SYNOPSIS
@@ -17,7 +16,6 @@ function Install-PWSH {
         oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
     #>
 
-    [CmdletBinding()]
     if ($IsLinux) {
         sudo apt-get update
         sudo apt-get install -y wget apt-transport-https software-properties-common  # Install pre-requisite packages.
@@ -50,10 +48,8 @@ function Install-OpenSSH {
         Install-OpenSSH
     #>
 
-    [CmdletBinding()]
-
     Install-Module -Name 'Microsoft.PowerShell.RemotingTools' -force
-    Import-Module -Name Microsoft.PowerShell.RemotingTools
+    Import-Module -Name 'Microsoft.PowerShell.RemotingTools'
 
     if ($IsWindows) {
         Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
@@ -71,7 +67,7 @@ function Install-OpenSSH {
 }
 
 function Install-Software {
-     <#
+    <#
         .SYNOPSIS
         Dient nur als Vorlage um meine verwendete Software zu installieren
 
@@ -81,7 +77,6 @@ function Install-Software {
         .EXAMPLE
         Install-Software
     #>
-    [CmdletBinding()]
 
     if ($IsWindows) {
         $null = mkdir C:\Temp -ErrorAction SilentlyContinue
@@ -188,8 +183,6 @@ function Install-myPWSH_Environment {
         Install-myPWSH_Environment
     #>
     
-    [CmdletBinding()]
-
     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
     Register-PackageSource -Name 'NuGet' -Location "http://www.nuget.org/api/v2" -ProviderName Nuget -Trusted
 
@@ -232,6 +225,7 @@ function Install-myPWSH_Environment {
         # bw config server https://bitwarden.stagge.it
 
         mkdir ~/.config/powershell -p
+        mkdir /home/codespace/.config/powershell -p
         sudo apt autoremove
     }
     Update-module 
@@ -239,7 +233,7 @@ function Install-myPWSH_Environment {
 }
 
 function Install-VSCode {
-     <#
+    <#
         .SYNOPSIS
         Dient als Vorlage für meine persönlichen VSCode Einstellungen
 
@@ -250,8 +244,6 @@ function Install-VSCode {
         .EXAMPLE
         Install-VSCode
     #>
-    
-    [CmdletBinding()]
     
     git config --global user.email "olaf.stagge@posteo.de"
     git config --global user.name "olaf.stagge@posteo.de"
@@ -266,7 +258,7 @@ function Install-VSCode {
 }
 
 function Unlock-My_PWSH_Environment {
-     <#
+    <#
         .SYNOPSIS
         Dient als Vorlage für meine persönliche Powershell Umgebung 
 
@@ -277,8 +269,6 @@ function Unlock-My_PWSH_Environment {
         Unlock-My_PWSH_Environment
     #>
     
-    [CmdletBinding()]
-
     # ls -la $HOME/.secretmanagement/localstore/
     # Unregister-SecretVault -Name SecretStore
     # Set-SecretStorePassword -NewPassword $newss
