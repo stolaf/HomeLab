@@ -20,36 +20,54 @@ if (!(Get-Item -Path $($Profile.CurrentUserAllHosts))) {
 function Install-PWSH {
     <#
         .SYNOPSIS
-        Dient nur als Vorlage um PWSH und oh-my-posh zu installieren
+        Dient nur als Vorlage um PWSH zu installieren
 
         .DESCRIPTION
-        Dient nur als Vorlage um PWSH und oh-my-posh zu installieren
+           Dient nur als Vorlage um PWSH zu installieren
 
         .EXAMPLE
         Install-PWSH
-        oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
     #>
 
     if ($IsLinux) {
         sudo apt-get update
         sudo apt-get install -y wget apt-transport-https software-properties-common  # Install pre-requisite packages.
         $lsb_release = $(lsb_release -is).ToLower()
+        # distribution=$(echo $(lsb_release -is) | tr "[:upper:]" "[:lower:]")
         wget -q "https://packages.microsoft.com/config/$lsb_release/$(lsb_release -rs)/packages-microsoft-prod.deb"  
+        # wget -q "https://packages.microsoft.com/config/$distribution/$(lsb_release -rs)/packages-microsoft-prod.deb"
         sudo dpkg -i packages-microsoft-prod.deb   # Register the Microsoft repository GPG keys
         sudo apt-get update  # Update the list of packages after we added packages.microsoft.com
         sudo apt-get install -y powershell
+    }
+    if ($IsWindows) {
+        winget install Microsoft.PowerShell -s winget
+    }
+}
 
+function Install-Oh_my_Posh {
+    <#
+        .SYNOPSIS
+        Dient nur als Vorlage um oh-my-posh zu installieren
+
+        .DESCRIPTION
+        Dient nur als Vorlage um oh-my-posh zu installieren
+
+        .EXAMPLE
+        Install-Oh_my_Posh
+        oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
+    #>
+
+    if ($IsLinux) {
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh  
         sudo chmod +x /usr/local/bin/oh-my-posh
         
     }
     if ($IsWindows) {
-        winget install Microsoft.PowerShell -s winget
         winget install JanDeDobbeleer.OhMyPosh  -s winget
     }
     oh-my-posh font install Meslo
 }
-
 function Install-OpenSSH {
     <#
         .SYNOPSIS
@@ -240,7 +258,7 @@ function Install-myPWSH_Environment {
         unzip bw-linux.zip
         chmod u+x bw
         sudo mv bw /usr/local/bin
-        Remove-Item bw-linux.zip -force
+        Remove-Item bw-linux.zip -f
      
         mkdir ~/.config/powershell -p
         mkdir /home/codespace/.config/powershell -p
@@ -406,6 +424,10 @@ function Publish-FileToMyGitHub {
 # Beim ersten Aufruf des Profils wird Install-myPWSH_Environment aufgerufen
 if (!(Get-Module -Name 'Terminal-Icons' -ListAvailable -EA 0)) {
     Install-myPWSH_Environment
+}
+
+if (!(Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+    Install-Oh_my_Posh
 }
 
 Import-Module -Name 'Terminal-Icons'
