@@ -1,23 +1,9 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+$Profile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
+
 function Install-PWSH {
     if ($IsLinux) {
-        <#      Installation über DOTNET
-        https://github.com/PowerShell/PowerShell/releases
-        https://docs.microsoft.com/en-us/powershell/scripting/install/install-debian?view=powershell-7.2
-    
-        wget https://dot.net/v1/dotnet-install.sh
-        chmod +x dotnet-install.sh
-        ./dotnet-install.sh -channel LTS -c Current  # -Architecture arm
-        nano /home/olaf/.bashrc
-        # Append export PATH=$PATH:$HOME/.dotnet
-        # Append export DOTNET_ROOT=$HOME/.dotnet
-        # Append export PATH="$PATH:~/.dotnet/tools"
-        source ~/.bashrc  # bash neu laden
-        $env:PATH = "$($env:PATH):~/.dotnet"    # PATH in GROSSBUCHSTABEN!!!
-        dotnet tool install --global PowerShell
-        #>
-
         if ($(lsb_release -is) -Match 'Ubuntu') {
             sudo apt-get update
             sudo apt-get install -y wget apt-transport-https software-properties-common  # Install pre-requisite packages.
@@ -25,13 +11,10 @@ function Install-PWSH {
             sudo dpkg -i packages-microsoft-prod.deb   # Register the Microsoft repository GPG keys
             sudo apt-get update  # Update the list of packages after we added packages.microsoft.com
             sudo apt-get install -y powershell
-            pwsh
+            # pwsh
         }
     }
     if ($IsWindows) {
-        # Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') }" 
-        # Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } –useMSI -EnablePSRemoting -Quiet"
-        Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } –useMSI"
         winget install Microsoft.PowerShell
     }
 }
@@ -55,7 +38,6 @@ function Install-OpenSSH {
         Enable-SSHRemoting -Verbose 
         sudo service ssh restart
     }
-    Invoke-Command -HostName 192.168.178.20 -UserName olaf -ScriptBlock { Get-Process -Name pwsh }
 }
 function Install-Software {
     if ($IsWindows) {
@@ -64,20 +46,6 @@ function Install-Software {
         Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-        #region Chocolatey 'https://chocolatey.org/'
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        choco feature enable -n allowGlobalConfirmation  ## Enable Choco Global Confirmation
-        choco upgrade chocolatey
-        'brave', 'deepl', 'notepadplusplus', 'treesizefree', 'greenshot', 'nextcloud-client', 'ccleaner', '7zip.install' | Foreach-Object { choco install $_ }
-        'microsoft-windows-terminal', 'keepass', 'git' | Foreach-Object { choco install $_ }
-        'prusaslicer', 'obs-studio', 'etcher', 'putty.install', 'winscp.install', 'citrix-receiver', 'royalts', 'teamviewer', 'bitwarden' | Foreach-Object { choco install $_ }
-        'dotnet-6.0-sdk', 'mqttfx', 'bitwarden-cli', 'python3', 'vscode', 'vscode-powershell', 'vscode-csharp', 'vscode-icons', 'vscode-gitlens', 'vscode-docker', 'vscode-mssql', 'vscode-markdownlint' | Foreach-Object { choco install $_ }
-        'foxitreader', 'libreoffice-fresh', 'thunderbird', 'gimp', 'inkscape', 'vlc' | Foreach-Object { choco install $_ }
-
-        choco outdated
-        choco upgrade all
-        #endregion Chocolatey 
-        
         #region Winget
         winget install Brave.Brave
         winget install DeepL.DeepL
@@ -181,6 +149,7 @@ function Install-myPWSH_Environment {
     Install-Module -Name 'ImportExcel' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Microsoft.Powershell.SecretManagement' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Microsoft.Powershell.SecretStore' -Repository PSGallery -Scope CurrentUser -force
+     
     # Install-Module -Name 'SecretManagement.KeePass' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'PlatyPS' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Pester' -Repository PSGallery -Scope CurrentUser -force
@@ -193,9 +162,6 @@ function Install-myPWSH_Environment {
     if ($IsWindows) {
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
 
-        # Invoke-WebRequest 'https://github.com/stolaf/homelab/blob/main/powershell/profile_CurrentUser.AllHosts.ps1' -OutFile $($profile.CurrentUserAllHosts)
-        Invoke-WebRequest 'https://gitlab.stagge.it/stolaf/homelab/-/blob/main/powershell/profile_CurrentUser.AllHosts.ps1' -OutFile $($profile.CurrentUserAllHosts)
-
         #region FuzzySearch  https://github.com/junegunn/fzf/releases  exe File herunterladen und nach system32 kopieren
         Invoke-WebRequest 'https://github.com/junegunn/fzf/releases/download/0.30.0/fzf-0.30.0-windows_amd64.zip' -OutFile '~/Downloads/fzf.zip'
         Expand-Archive -Path "~/Downloads/fzf.zip" -DestinationPath "~/Downloads/fzf" -Force
@@ -205,41 +171,27 @@ function Install-myPWSH_Environment {
         Install-Module -Name 'PSFzf' -Repository PSGallery -Scope CurrentUser -force
         #endregion FuzzySearch
 
-        Set-ExecutionPolicy Bypass -Scope Process -Force
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
-
-        #region NerdFont Installation
-        Invoke-WebRequest 'https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip' -OutFile '~/Downloads/Meslo.zip' 
-        Expand-Archive -Path "~/Downloads/Meslo.zip" -DestinationPath "~/Downloads/Meslo" -Force
-        Remove-Item -Path '~/Downloads/Meslo.zip' -force -EA 0
-        Explorer '~/Downloads/Meslo'
-        #endregion NerdFont Installation
-
+        winget install JanDeDobbeleer.OhMyPosh  -s winget
+        oh-my-posh font install Meslo
+        
+        # Module die nur unter Windows funktionieren
         Install-Module -Name 'NTFSSecurity' -Scope CurrentUser -Force
     }
 
     if ($IsLinux) {
-        sudo snap install bw  # Bitwarden CLI
-        bw config server https://bitwarden.stagge.it
+        sudo apt-get install sudo, curl, fzf, unzip, snap
 
-        sudo apt-get install fzf  
+        # sudo snap install bw  # Bitwarden CLI
+        # bw config server https://bitwarden.stagge.it
+     
         Install-Module -Name 'PSFzf' -Repository PSGallery -Scope CurrentUser -force
         
-        wget https://github.com/stolaf/homelab/blob/main/powershell/profile_CurrentUser.AllHosts.ps1 -O /home/olaf/.config/powershell/profile.ps1
+        
+        wget $Profile_CurrentUserAllHosts_Url -O /home/olaf/.config/powershell/profile.ps1
 
-        sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+        sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh  
         sudo chmod +x /usr/local/bin/oh-my-posh
-        mkdir ~/.poshthemes
-        wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
-        unzip ~/.poshthemes/themes.zip -d ~/.poshthemes
-        chmod u+rw ~/.poshthemes/*.json
-        Remove-Item ~/.poshthemes/themes.zip
-
-        # In Terminal Meslo Font einstellen
-        wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip -P ~/Downloads
-        unzip ~/Downloads/Meslo.zip -d ~/.fonts
-        sudo fc-cache -fv
-
+        oh-my-posh font install Meslo
         mkdir ~/.config/powershell
     }
 }
@@ -302,14 +254,13 @@ function Unlock-My_PWSH_Environment {
     $Token = bw unlock --raw $($myBitwarden.GetNetworkCredential().Password)
     $env:BW_SESSION = "$Token"
 
-    $FileHash = Get-FileHash -Path $($Profile.CurrentUserAllHosts)
-
     $GitLab_Token = bw get item 084f6d89-93d8-40a0-bf55-17a5c1f1e947 --pretty | ConvertFrom-Json
     $PrivateToken = ($GitLab_Token.fields | Where-Object { $_.name -Match 'myCurl_Token' }).Value
     $Headers = @{'Private-Token' = $PrivateToken }
     
     # Get ProfileScript File Information
-    $RestMethod = Invoke-RestMethod -Headers $Headers -Uri "https://gitlab.stagge.it/api/v4/projects/2/repository/files/powershell%2Fprofile_CurrentUser.AllHosts.ps1?ref=main" -SkipHttpErrorCheck
+    $FileHash = Get-FileHash -Path $($Profile.CurrentUserAllHosts)
+    $RestMethod = Invoke-RestMethod -Headers $Headers -Uri $Profile_CurrentUserAllHosts_Url -SkipHttpErrorCheck
     if ($RestMethod.Message -notmatch '404') {
         if ($($RestMethod.content_sha256) -ne $($FileHash.Hash)) {
             # Download newer ProfileScript
@@ -336,7 +287,5 @@ $PSStyle.Formatting.TableHeader = $PSStyle.Bold + $PSStyle.Italic + $PSStyle.For
 # Set-Alias grep findstr
 
 oh-my-posh init pwsh --config "https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json" | Invoke-Expression
-# code "$ENV:POSH_THEMES_PATH\my.omp.json"
 
-# Unlock-My_PWSH_Environment
 
