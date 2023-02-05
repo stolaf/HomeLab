@@ -1,6 +1,8 @@
 #Requires -Version 7
 
-#Test1
+<#
+Publish-FileToMyGitHub -SourceFileName $($Profile.CurrentUserAllHosts) -GitRemoteFileName 'pwsh/profile.CurrentUserAllHosts.ps1'
+#>
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
