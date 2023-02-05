@@ -3,7 +3,9 @@
 $myProfile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
 $myOhMyPoshTheme_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json'
 
-Invoke-WebRequest $myProfile_CurrentUserAllHosts_Url -OutFile $($Profile.CurrentUserAllHosts)
+if (!(Get-Item -Path $($Profile.CurrentUserAllHosts))) {
+    Invoke-WebRequest $myProfile_CurrentUserAllHosts_Url -OutFile $($Profile.CurrentUserAllHosts)
+}
 
 function Install-PWSH {
     <#
