@@ -1,5 +1,3 @@
-#Requires -Version 7
-
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $myProfile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
@@ -7,11 +5,6 @@ $myOhMyPoshTheme_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pw
 
 if (!(Get-Item -Path $($Profile.CurrentUserAllHosts))) {
     Invoke-WebRequest $myProfile_CurrentUserAllHosts_Url -OutFile $($Profile.CurrentUserAllHosts)
-    # rm /home/codespace/.config/powershell/profile.ps1 -f
-    # wget -O /home/codespace/.config/powershell/profile.ps1 https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1 
-    https://raw.githubusercontent.com/stolaf/homelab/Hello-World/master/README
-    start https://raw.githubusercontent.com/stolaf/homelab/blob/3aa35349073a85ba3afbf02e78e8974cd603f5ef/pwsh/profile.CurrentUserAllHosts.ps1
-    wget https://raw.githubusercontent.com/stolaf/homelab/3aa35349073a85ba3afbf02e78e8974cd603f5ef/pwsh/profile.CurrentUserAllHosts.ps1
 }
 
 function Install-PWSH {
