@@ -68,6 +68,30 @@ function Install-Oh_my_Posh {
     }
     oh-my-posh font install Meslo
 }
+
+function Install-BW {
+    <#
+        .SYNOPSIS
+        Dient nur als Vorlage um BW (Bitwarden) CLI zu installieren
+
+        .DESCRIPTION
+       Dient nur als Vorlage um BW (Bitwarden) CLI zu installieren
+
+        .EXAMPLE
+       Install-BW 
+    #>
+
+    if ($IsLinux) {
+        # sudo snap install bw # funktioniert nicht mehr
+        wget "https://vault.bitwarden.com/download/?app=cli&platform=linux"  -o bw-linux.zip  # Codespace: auf dem Desktop herunter laden und dann hochladen
+        unzip bw-linux.zip
+        chmod u+x bw
+        sudo mv bw /usr/local/bin
+        Remove-Item bw-linux.zip -force
+    }
+    
+}
+
 function Install-OpenSSH {
     <#
         .SYNOPSIS
@@ -201,6 +225,8 @@ function Install-Software {
         Set-Service beep -StartupType disabled
         Stop-Service beep
     }
+    if ($IsLinux) {
+    }
 }
 
 function Install-myPWSH_Environment {
@@ -253,13 +279,6 @@ function Install-myPWSH_Environment {
     if ($IsLinux) {
         sudo apt-get install sudo curl fzf unzip snapd -y
 
-        # sudo snap install bw # funktioniert nicht mehr
-        wget "https://vault.bitwarden.com/download/?app=cli&platform=linux"  -o bw-linux.zip  # Codespace: auf dem Desktop herunter laden und dann hochladen
-        unzip bw-linux.zip
-        chmod u+x bw
-        sudo mv bw /usr/local/bin
-        Remove-Item bw-linux.zip -f
-     
         mkdir ~/.config/powershell -p
         mkdir /home/codespace/.config/powershell -p
         sudo apt autoremove
@@ -287,7 +306,7 @@ function Install-VSCode {
     git config --local --list  #innterhalb des Repos
 
     if ($IsWindows) {
-        $Null = New-Item -Path "$ENV:APPDATA\Code\User\Snippets\powershell.json" -ItemType File -ErrorAction SilentlyContinue
+        # $Null = New-Item -Path "$ENV:APPDATA\Code\User\Snippets\powershell.json" -ItemType File -ErrorAction SilentlyContinue
         # https://gist.github.com/rkeithhill/60eaccf1676cf08dfb6f
         # https://germanpowershell.com/visual-studio-code/
     }
@@ -428,6 +447,9 @@ if (!(Get-Module -Name 'Terminal-Icons' -ListAvailable -EA 0)) {
 
 if (!(Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
     Install-Oh_my_Posh
+}
+if (!(Get-Command bw -ErrorAction SilentlyContinue)) {
+    Install-BW
 }
 
 Import-Module -Name 'Terminal-Icons'
