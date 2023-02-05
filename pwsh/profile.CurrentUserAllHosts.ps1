@@ -3,6 +3,8 @@
 $myProfile_CurrentUserAllHosts_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/profile.CurrentUserAllHosts.ps1'
 $myOhMyPoshTheme_Url = 'https://raw.githubusercontent.com/stolaf/homelab/main/pwsh/my.omp.json'
 
+Invoke-WebRequest $myProfile_CurrentUserAllHosts_Url -OutFile $($Profile.CurrentUserAllHosts)
+
 function Install-PWSH {
     <#
         .SYNOPSIS
@@ -184,7 +186,7 @@ function Install-myPWSH_Environment {
     #>
     
     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted 
-    Register-PackageSource -Name 'NuGet' -Location "http://www.nuget.org/api/v2" -ProviderName Nuget -Trusted
+    Register-PackageSource -Name 'NuGet' -Location "http://www.nuget.org/api/v2" -ProviderName Nuget -Trusted -Force
 
     Install-Module -Name 'z' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'PSReadLine' -AllowPrerelease -Repository PSGallery -Scope CurrentUser -force
@@ -310,7 +312,7 @@ function Unlock-My_PWSH_Environment {
 }
 
 # Beim ersten Aufruf des Profils wird Install-myPWSH_Environment aufgerufen
-if (!(Get-Module -Name 'Terminal-Icons' -EA 0)) {
+if (!(Get-Module -Name 'Terminal-Icons' -ListAvailable -EA 0)) {
     Install-myPWSH_Environment
 }
 
