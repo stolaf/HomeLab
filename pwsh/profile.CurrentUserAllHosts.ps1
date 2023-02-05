@@ -245,7 +245,7 @@ function Install-myPWSH_Environment {
     Register-PackageSource -Name 'NuGet' -Location "http://www.nuget.org/api/v2" -ProviderName Nuget -Trusted -Force
 
     Install-Module -Name 'z' -Repository PSGallery -Scope CurrentUser -force
-    Install-Module -Name 'PSReadLine' -AllowPrerelease -Repository PSGallery -Scope CurrentUser -force
+    Install-Module -Name 'PSReadLine' -AllowPrerelease -Repository PSGallery -force -WarningAction Ignore
     Install-Module -Name 'Terminal-Icons' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'Posh-Git' -Repository PSGallery -Scope CurrentUser -force
     Install-Module -Name 'ImportExcel' -Repository PSGallery -Scope CurrentUser -force
